@@ -47,12 +47,12 @@ app.use(bodyParser.urlencoded({extended: false}));
 // parse application/json
 app.use(bodyParser.json());
 
+// cross origin resource sharing (CORS)
+app.use(cors());
+
 // setup api routes
 app.use('/api/users' , users);
 app.use('/api/courses' , courses);
-
-// cross origin resource sharing (CORS)
-app.use(cors());
 
 // setup a friendly greeting for the root route
 app.get('/', (req, res) => {
