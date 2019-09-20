@@ -12,6 +12,7 @@ Date: 05/09/2019
 // load modules
 const express = require('express');
 const morgan = require('morgan');
+const cors = require('cors');
 const db = require('./db');
 const bodyParser = require('body-parser');
 const users = require('./routes/users');
@@ -49,6 +50,9 @@ app.use(bodyParser.json());
 // setup api routes
 app.use('/api/users' , users);
 app.use('/api/courses' , courses);
+
+// cross origin resource sharing (CORS)
+app.use(cors());
 
 // setup a friendly greeting for the root route
 app.get('/', (req, res) => {
