@@ -1,6 +1,7 @@
 // src/App.js
 
 import React, {Component} from 'react';
+import Header from './components/Header';
 
 class App extends Component {
 
@@ -17,11 +18,11 @@ class App extends Component {
 
   render () {
     return (
-      <div>
-        <h1> React App that consumes Restful api </h1>
-        <ul>
-           {this.state.courses.map( (course) => <li> {course.title}</li>)}
-        </ul>
+      <div className="App">
+        <Header/>
+        {/* <ul>
+           {this.state.courses.map( (course) => <li> {course.title} </li>)}
+        </ul> */}
       </div>
     );
   }
