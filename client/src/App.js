@@ -1,7 +1,10 @@
 
 import React, {Component} from 'react';
 import Header from './components/Header';
+import Courses from './components/Courses';
 import CourseDetail from './components/CourseDetail';
+import UserSignIn from './components/UserSignIn';
+import UserSignUp from './components/UserSignUp';
 import './global.css';
 
 class App extends Component {
@@ -11,7 +14,9 @@ class App extends Component {
       <div id="root">
         <div>
           <Header/>
-          <CourseDetail id="1"/> 
+          <UserSignUp />
+          {/* <UserSignIn /> */}
+          {/* <CourseDetail id="1"/>  */}
           {/* <Courses/> */}
           
         </div>
