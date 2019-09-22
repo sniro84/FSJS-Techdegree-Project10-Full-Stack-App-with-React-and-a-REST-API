@@ -3,7 +3,7 @@ import React, {Component} from 'react';
 class Courses extends Component {
     state = {
         courses: []
-      };
+    };
     
     componentDidMount() {
     fetch('http://localhost:5000/api/courses')
