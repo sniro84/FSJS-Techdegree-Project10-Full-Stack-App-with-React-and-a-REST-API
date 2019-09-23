@@ -1,4 +1,5 @@
 import React, {Component} from 'react';
+import CourseDetail from '../components/CourseDetail';
 
 class Courses extends Component {
     state = {
