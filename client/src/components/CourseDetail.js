@@ -1,4 +1,7 @@
 import React, {Component} from 'react';
+import {Link} from 'react-router-dom';
+
+import UpdateCourse from '../components/UpdateCourse';
 
 class CourseDetail extends Component {
 
@@ -7,22 +10,19 @@ class CourseDetail extends Component {
         userDetail: {}
     };
 
-    getParagraphs = (text) => {
-        const originalText = new String(text);
-        const paragraphs = originalText.split('\n\n');
-        return paragraphs;      
-    }
-
-    getMaterials = (text) => {
-        let originalText = new String(text);
-        originalText = originalText.substring(1);
-        const materials = originalText.split('\n*');
-        console.log(materials);
-        return materials;
+    handleDeleteCourse = () => {
+        const url = `http://localhost:5000/api/courses/${this.props.match.params.id}`;
+        return fetch(url , {
+            method: 'DELETE',
+            headers: {'Content-Type': 'application/json'}
+           
+        })
+         .then( (res) => res.json() )
+         .catch( (error) => console.log('Error: cannot delete course', error) )
     }
 
     componentDidMount() {
-        fetch(`http://localhost:5000/api/courses/${this.props.id}`)
+        fetch(`http://localhost:5000/api/courses/${this.props.match.params.id}`)
             .then( (res) => res.json() )
             .then( (data) => {
                 this.setState({ courseDetail: data })
@@ -32,9 +32,9 @@ class CourseDetail extends Component {
         }
 
     render() {
-        const {id,title,description,estimatedTime,materialsNeeded} = this.state.courseDetail;
+        let id = this.props.match.params.id;
+        const {title,description,estimatedTime,materialsNeeded} = this.state.courseDetail;
         const {firstName, lastName} = this.state.userDetail;
-        console.log(description);
 
         return (
             <div>
@@ -42,10 +42,10 @@ class CourseDetail extends Component {
                     <div className="bounds">
                         <div className="grid-100">
                             <span>
-                                <a className="button" href="update-course.html">Update Course</a>
-                                <a className="button" href="#">Delete Course</a>
+                                <Link className="button" to={{pathname: `/courses/${id}/update`,state: {id,title,description,estimatedTime,materialsNeeded} }}>Update Course</Link>
+                                <Link className="button" onClick={this.handleDeleteCourse} to="/">Delete Course</Link>
                             </span>
-                            <a className="button button-secondary" href="index.html">Return to List</a>
+                            <Link className="button button-secondary" to="/">Return to List</Link>
                         </div>
                     </div>
                 </div>
@@ -59,9 +59,7 @@ class CourseDetail extends Component {
                         </div>
 
                         <div className="course--description">
-                             {this.getParagraphs(description).map( (paragrpah, index) => {
-                                return <p key={index}> {paragrpah} </p>
-                            })}
+                             <p> {description} </p>
                         </div>                  
                     </div>
 
@@ -76,9 +74,7 @@ class CourseDetail extends Component {
                                 <li className="course--stats--list--item">
                                     <h4>Materials Needed</h4>
                                     <ul>
-                                         {this.getMaterials(materialsNeeded).map( (material, index) => {
-                                                return <li key={index}> {material} </li>
-                                         })}
+                                         <li> {materialsNeeded} </li>
                                     </ul>
                                 </li>
                             </ul>

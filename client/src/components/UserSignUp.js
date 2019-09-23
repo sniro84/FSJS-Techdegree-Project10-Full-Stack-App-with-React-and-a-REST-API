@@ -1,10 +1,11 @@
 import React,{Component} from 'react';
+import {Link} from 'react-router-dom';
 
 class UserSignUp extends Component {
     render() {
         return (
-            <div class="bounds">
-                <div class="grid-33 centered signin">
+            <div className="bounds">
+                <div className="grid-33 centered signin">
                     <h1>Sign Up</h1>
                     <div>
                         <form>
@@ -13,7 +14,7 @@ class UserSignUp extends Component {
                                     id="firstName"
                                     name="firstName"
                                     type="text"
-                                    class=""
+                                    className=""
                                     placeholder="First Name"
                                     value=""
                                  />
@@ -23,7 +24,7 @@ class UserSignUp extends Component {
                                     id="lastName"
                                     name="lastName"
                                     type="text"
-                                    class=""
+                                    className=""
                                     placeholder="Last Name"
                                     value=""
                                 />
@@ -33,7 +34,7 @@ class UserSignUp extends Component {
                                     id="emailAddress"
                                     name="emailAddress"
                                     type="text"
-                                    class=""
+                                    className=""
                                     placeholder="Email Address"
                                     value="" 
                                 />
@@ -43,7 +44,7 @@ class UserSignUp extends Component {
                                     id="password"
                                     name="password"
                                     type="password"
-                                    class=""
+                                    className=""
                                     placeholder="Password"
                                     value=""
                                 />
@@ -53,19 +54,19 @@ class UserSignUp extends Component {
                                     id="confirmPassword"
                                     name="confirmPassword"
                                     type="password"
-                                    class=""
+                                    className=""
                                     placeholder="Confirm Password"
                                     value=""
                                 />
                             </div>
-                            <div class="grid-100 pad-bottom">
-                                <button class="button" type="submit">Sign Up</button>
-                                <button class="button button-secondary" >Cancel</button></div>
+                            <div className="grid-100 pad-bottom">
+                                <button className="button" type="submit">Sign Up</button>
+                                <button className="button button-secondary" >Cancel</button></div>
                         </form>
                     </div>
                 <p>&nbsp;</p>
                 <p>Already have a user account? 
-                    <a href="sign-in.html">Click here</a> to sign in!
+                    <Link to="/signin">Click here</Link> to sign in!
                 </p>
                 </div>
             </div>

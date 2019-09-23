@@ -1,8 +1,10 @@
 import React from 'react';
+import {Redirect} from 'react-router-dom';
 
 const UserSignOut = (props) => {
     return(
-        // redirects to default route
+        // sign out user
+        <Redirect to="/" />
     );
 }
 

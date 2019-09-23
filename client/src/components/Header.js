@@ -1,4 +1,5 @@
 import React from 'react';
+import {Link} from 'react-router-dom';
 
 const Header = (props) => {
     if (props.signedIn()) {
@@ -8,7 +9,7 @@ const Header = (props) => {
                     <h1 className="header--logo">Courses</h1>
                     <nav>
                         <span>Welcome Joe Smith!</span>
-                        <a className="signout" href="index.html">Sign Out</a>
+                        <Link className="signout" to="/">Sign Out</Link>
                     </nav>
                 </div>
             </div>
@@ -20,8 +21,8 @@ const Header = (props) => {
                 <div className="bounds">
                     <h1 className="header--logo">Courses</h1>
                     <nav>
-                        <a className="signup" href="sign-up.html">Sign Up</a>
-                        <a className="signin" href="sign-in.html">Sign In</a>
+                        <Link className="signup" to="/signup">Sign Up</Link>
+                        <Link className="signin" to="/signin">Sign In</Link>
                     </nav>
                 </div>
             </div>

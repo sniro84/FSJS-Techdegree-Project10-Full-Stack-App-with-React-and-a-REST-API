@@ -1,7 +1,19 @@
 import React,{Component} from 'react';
+import {Redirect} from 'react-router-dom';
 
 class UpdateCourse extends Component {
+
+    handleCancelEvent = (e) => {
+        e.preventDefault();
+        return <Redirect to={`/courses/${this.props.location.state.id}`}/>;
+    }
+
     render () {
+        const {title,description,estimatedTime,materialsNeeded} = this.props.location.state; 
+        console.log(title);
+        console.log(description);
+        console.log(estimatedTime);
+        console.log(materialsNeeded);
         return (
             <div className="bounds course--detail">
                 <h1>Update Course</h1>
@@ -17,7 +29,7 @@ class UpdateCourse extends Component {
                                         type="text"
                                         className="input-title course--title--input"
                                         placeholder="Course title..."
-                                        value="Build a Basic Bookcase"
+                                        value={title}
                                     />        
                                 </div>
                                 <p>By Joe Smith</p>
@@ -25,7 +37,7 @@ class UpdateCourse extends Component {
                             <div className="course--description">
                                 <div>
                                     <textarea id="description" name="description" className="" placeholder="Course description...">
-                                        This is the course decription.
+                                        {description}
                                     </textarea>
                                 </div>
                             </div>
@@ -42,7 +54,7 @@ class UpdateCourse extends Component {
                                                 type="text"
                                                 className="course--time--input"
                                                 placeholder="Hours"
-                                                value="14 hours"
+                                                value={estimatedTime}
                                             />        
                                         </div>
                                     </li>
@@ -50,7 +62,7 @@ class UpdateCourse extends Component {
                                         <h4>Materials Needed</h4>
                                         <div>
                                             <textarea id="materialsNeeded" name="materialsNeeded" className="" placeholder="List materials...">
-                                                These are the materials needed
+                                                {materialsNeeded}
                                             </textarea>
                                         </div>
                                     </li>
@@ -59,7 +71,7 @@ class UpdateCourse extends Component {
                         </div>
                         <div className="grid-100 pad-bottom">
                             <button className="button" type="submit">Update Course</button>
-                            <button className="button button-secondary" onclick="event.preventDefault(); location.href='course-detail.html';">Cancel</button>
+                            <button className="button button-secondary" onClick={this.handleCancelEvent} >Cancel</button>
                         </div>
                     </form>
                 </div>
