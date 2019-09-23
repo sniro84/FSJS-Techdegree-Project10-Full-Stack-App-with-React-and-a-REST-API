@@ -3,9 +3,9 @@ import {Redirect} from 'react-router-dom';
 
 class UpdateCourse extends Component {
 
-    handleCancelEvent = (e) => {
+    handleCancel = (e) => {
         e.preventDefault();
-        return <Redirect to={`/courses/${this.props.location.state.id}`}/>;
+        this.props.history.push(`/courses/${this.props.location.state.id}`);
     }
 
     render () {
@@ -71,7 +71,7 @@ class UpdateCourse extends Component {
                         </div>
                         <div className="grid-100 pad-bottom">
                             <button className="button" type="submit">Update Course</button>
-                            <button className="button button-secondary" onClick={this.handleCancelEvent} >Cancel</button>
+                            <button className="button button-secondary" onClick={this.handleCancel} >Cancel</button>
                         </div>
                     </form>
                 </div>
