@@ -11,8 +11,10 @@ import CreateCourse from './components/CreateCourse';
 import UpdateCourse from './components/UpdateCourse';
 import UserSignOut from './components/UserSignOut';
 import NotFound from './components/NotFound';
+import withContext from './Context';
 import './global.css';
 
+const UserSignUpWithContext = withContext(UserSignUp);
 
 class App extends Component {
 
@@ -32,7 +34,7 @@ class App extends Component {
               <Route path="/courses/:id/update" render={ (props) => < UpdateCourse {...props} /> } />
               <Route path="/courses/:id" component={CourseDetail} />
               <Route path="/signin" render={ (props) => < UserSignIn {...props} signInUser={this.signIn} /> } />
-              <Route path="/signup" component={UserSignUp} />
+              <Route path="/signup" component={UserSignUpWithContext} />
               <Route path="/signout" component={UserSignOut} />
               <Route component={NotFound} />
             </Switch>
