@@ -25,7 +25,7 @@ class App extends Component {
       <BrowserRouter>
         <div id="root">
           <div>
-            <Header signedIn={false} />
+            <Header signedIn={true} />
             <Switch>
               <Route exact path="/" component={Courses}/>
               <Route path="/courses/create" component={CreateCourse} />
