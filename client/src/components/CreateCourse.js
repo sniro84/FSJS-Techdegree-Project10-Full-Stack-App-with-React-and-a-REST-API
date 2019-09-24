@@ -1,6 +1,53 @@
 import React,{Component} from 'react';
 
 class CreateCourse extends Component {
+
+    state = {
+        title: '',
+        description: '',
+        estimatedTime: '',
+        materialsNeeded: ''
+    };
+
+    handleTitleChange = (e) => {
+        this.setState({title: e.target.value})
+    }
+
+    handleDescriptionChange = (e) => {
+        this.setState({description: e.target.value})
+    }
+
+    handleEstimatedTimeChange = (e) => {
+        this.setState({estimatedTime: e.target.value})
+    }
+
+    handleMaterialsNeededChange = (e) => {
+        this.setState({materialsNeeded: e.target.value})
+    }
+
+    handleSubmit = (e) => {
+        e.preventDefault();
+        alert(`title: ${this.state.title} description: ${this.state.description} `);
+        const url = `http://localhost:5000/api/courses`;
+        return fetch(url , {
+            method: 'POST',
+            body: {
+                "title":  this.state.title,
+                "description": this.state.description,
+                "estimatedTime": this.state.estimatedTime,
+                "materialsNeeded":  this.state.materialsNeeded
+            },
+            headers: {'Content-Type': 'application/json'}
+        })
+         .then( (res) => res.json() )
+         .catch( (error) => console.log('Error: cannot create course', error) ) 
+    }
+
+    handleCancel = (e) => {
+        e.preventDefault();
+        this.props.history.push("/");
+    }
+
     render() {
         return (
             <div className="bounds course--detail">
@@ -15,7 +62,7 @@ class CreateCourse extends Component {
                             </ul>
                         </div>
                     </div>
-                    <form>
+                    <form onSubmit={this.handleSubmit}>
                         <div className="grid-66">
                             <div className="course--header">
                                 <h4 className="course--label">Course</h4>
@@ -26,7 +73,8 @@ class CreateCourse extends Component {
                                         type="text"
                                         className="input-title course--title--input" 
                                         placeholder="Course title..."
-                                        value="" 
+                                        value={this.state.title}
+                                        onChange={this.handleTitleChange} 
                                     /> 
                                 </div>
                                 <p>By Joe Smith</p>
@@ -37,7 +85,9 @@ class CreateCourse extends Component {
                                         id="description"
                                         name="description"
                                         className=""
-                                        placeholder="Course description...">
+                                        placeholder="Course description..."
+                                        value={this.state.description}
+                                        onChange={this.handleDescriptionChange}>     
                                     </textarea>
                                 </div>
                             </div>
@@ -54,7 +104,8 @@ class CreateCourse extends Component {
                                                 type="text"
                                                 className="course--time--input"
                                                 placeholder="Hours"
-                                                value=""
+                                                value={this.state.estimatedTime}
+                                                onChange={this.handleEstimatedTimeChange} 
                                             />
                                         </div>
                                     </li>
@@ -65,7 +116,9 @@ class CreateCourse extends Component {
                                                 id="materialsNeeded"
                                                 name="materialsNeeded"
                                                 className=""
-                                                placeholder="List materials...">
+                                                placeholder="List materials..."
+                                                value={this.state.materialsNeeded}
+                                                onChange={this.handleMaterialsNeededChange}>     
                                             </textarea>
                                         </div>
                                     </li>
@@ -74,7 +127,7 @@ class CreateCourse extends Component {
                         </div>
                         <div className="grid-100 pad-bottom">
                             <button className="button" type="submit">Create Course</button>
-                            <button className="button button-secondary" onclick="event.preventDefault(); location.href='index.html';">Cancel</button>
+                            <button className="button button-secondary" onClick={this.handleCancel}>Cancel</button>
                         </div>
                     </form>
                 </div>

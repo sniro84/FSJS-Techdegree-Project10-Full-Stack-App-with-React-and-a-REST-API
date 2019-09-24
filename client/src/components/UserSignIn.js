@@ -8,7 +8,7 @@ class UserSignIn extends Component {
         password: ''
     };
 
-    handleEmailChange = (e) => {
+    handleEmailAddressChange = (e) => {
         this.setState({email: e.target.value});
     }
 
@@ -23,8 +23,7 @@ class UserSignIn extends Component {
 
     handleCancel = (e) => {
         e.preventDefault();
-        this.props.history.push("/");
-        
+        this.props.history.push("/");  
     }
 
     render() {
@@ -42,7 +41,7 @@ class UserSignIn extends Component {
                                     className=""
                                     placeholder="Email Address"
                                     value={this.state.email}
-                                    onChange={this.handleEmailChange}
+                                    onChange={this.handleEmailAddressChange}
                                 />
                             </div>
                             <div>
@@ -71,8 +70,6 @@ class UserSignIn extends Component {
             </div>
         );
     }
-
-
 }
 
 export default UserSignIn;

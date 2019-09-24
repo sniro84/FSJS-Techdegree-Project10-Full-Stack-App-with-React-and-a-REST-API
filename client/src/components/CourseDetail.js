@@ -40,7 +40,13 @@ class CourseDetail extends Component {
                     <div className="bounds">
                         <div className="grid-100">
                             <span>
-                                <Link className="button" to={{pathname: `/courses/${id}/update`,state: {id,title,description,estimatedTime,materialsNeeded} }}>Update Course</Link>
+                                <Link 
+                                    className="button" 
+                                    to={{
+                                        pathname: `/courses/${id}/update`,
+                                        state: {id,title,description,estimatedTime,materialsNeeded}
+                                    }}> Update Course        
+                                </Link>
                                 <Link className="button" onClick={this.handleDeleteCourse} to="/">Delete Course</Link>
                             </span>
                             <Link className="button button-secondary" to="/">Return to List</Link>
