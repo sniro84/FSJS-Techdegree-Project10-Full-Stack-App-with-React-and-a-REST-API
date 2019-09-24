@@ -1,8 +1,6 @@
 import React, {Component} from 'react';
 import {Link} from 'react-router-dom';
 
-import UpdateCourse from '../components/UpdateCourse';
-
 class CourseDetail extends Component {
 
     state = {

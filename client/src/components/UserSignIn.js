@@ -17,8 +17,14 @@ class UserSignIn extends Component {
     }
 
     handleSubmit = (e) => {
-        // e.preventDefault();
-        // continue with submitting the form
+        e.preventDefault();
+        this.props.signInUser(this.state.email, this.state.password);    
+    }
+
+    handleCancel = (e) => {
+        e.preventDefault();
+        this.props.history.push("/");
+        
     }
 
     render() {
@@ -52,7 +58,7 @@ class UserSignIn extends Component {
                             </div>
                             <div className="grid-100 pad-bottom">
                                 <button className="button" type="submit">Sign In</button>
-                                <button className="button button-secondary" >Cancel</button>
+                                <button className="button button-secondary" onClick={this.handleCancel} > Cancel</button>
                             </div>
                         </form>
                     </div>

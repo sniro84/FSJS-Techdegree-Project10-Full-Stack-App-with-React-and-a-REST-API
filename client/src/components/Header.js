@@ -2,7 +2,7 @@ import React from 'react';
 import {Link} from 'react-router-dom';
 
 const Header = (props) => {
-    if (props.signedIn()) {
+    if (props.signedIn === true) {
         return(
             <div className="header">
                 <div className="bounds">

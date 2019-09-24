@@ -1,6 +1,6 @@
 
 import React, {Component} from 'react';
-import {BrowserRouter, Route, Redirect, Switch} from 'react-router-dom';
+import {BrowserRouter, Route, Switch} from 'react-router-dom';
 
 import Header from './components/Header';
 import Courses from './components/Courses';
@@ -16,8 +16,8 @@ import './global.css';
 
 class App extends Component {
 
-  signIn = () => {
-    return true;
+  signIn = (email,password) => {
+    alert(`email : ${email} , password : ${password}`);
   }
 
   render () {
@@ -25,13 +25,13 @@ class App extends Component {
       <BrowserRouter>
         <div id="root">
           <div>
-            <Header signedIn={this.signIn} />
+            <Header signedIn={false} />
             <Switch>
               <Route exact path="/" component={Courses}/>
               <Route path="/courses/create" component={CreateCourse} />
               <Route path="/courses/:id/update" render={ (props) => < UpdateCourse {...props} /> } />
               <Route path="/courses/:id" component={CourseDetail} />
-              <Route path="/signin" component={UserSignIn} />
+              <Route path="/signin" render={ (props) => < UserSignIn {...props} signInUser={this.signIn} /> } />
               <Route path="/signup" component={UserSignUp} />
               <Route path="/signout" component={UserSignOut} />
               <Route component={NotFound} />
