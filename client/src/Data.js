@@ -27,11 +27,11 @@ export default class Data {
       }
       
     async createUser(user) {
-        const response = await this.api('/users', 'POST', user);
-        if (response.status === 201) 
+        const res = await this.api('/users', 'POST', user);
+        if (res.status === 201) 
             return [];
-        else if (response.status === 400) {
-            return response.json().then( (data) => {
+        else if (res.status === 400) {
+            return res.json().then( (data) => {
                 return data.errors;
             });
         }

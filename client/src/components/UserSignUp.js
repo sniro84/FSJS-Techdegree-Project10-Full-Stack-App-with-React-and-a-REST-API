@@ -8,7 +8,8 @@ class UserSignUp extends Component {
         lastName: '',
         emailAddress: '',
         password: '',
-        confirmPassword:''
+        confirmPassword:'',
+        errors: []
     };
 
     handleFirstNameChange = (e) => {
@@ -33,20 +34,28 @@ class UserSignUp extends Component {
 
     handleSubmit = (e) => {
         e.preventDefault();
-        alert(`first: ${this.state.firstName} last: ${this.state.lastName} `);
-        const url = `http://localhost:5000/api/users`;
-        return fetch(url , {
-            method: 'POST',
-            body: {
-                "firstName":  this.state.firstName,
-                "lastName": this.state.lastName,
-                "emailAddress": this.state.emailAddress,
-                "password":  this.state.password
-            },
-            headers: {'Content-Type': 'application/json'}
-        })
-         .then( (res) => res.json() )
-         .catch( (error) => console.log('Error: cannot create user', error) )   
+        const { context } = this.props;
+        const {firstName,lastName,emailAddress,password} = this.state;
+        const user = {firstName,lastName,emailAddress,password}; 
+
+        context.data.createUser(user)
+            .then( (errors) => {
+                if (errors.length) 
+                    this.setState({errors});
+                else if(this.state.password !== this.state.confirmPassword) {
+                    this.setState({
+                        errors: [...this.state.errors, "Please confirm your password." ]
+                      });
+                }
+                else
+                    console.log(`${emailAddress} is successfully signed up and authenticated!`);    
+            })
+            .catch( (error) => {
+                console.log(error);
+                this.props.history.push('/error');
+            });
+            
+              
     }
 
     handleCancel = (e) => {
@@ -55,10 +64,25 @@ class UserSignUp extends Component {
     }
 
     render() {
+        const {firstName,lastName,emailAddress,password,confirmPassword} = this.state;
         return (
             <div className="bounds">
                 <div className="grid-33 centered signin">
                     <h1>Sign Up</h1>
+
+                    {this.state.errors.length > 0 &&
+                        <div className="errors">
+                            <div>
+                                <h2> Validation Errors : </h2>
+                                <ul>
+                                    {this.state.errors.map( (error,index) => {
+                                        return <li key={index}> {error} </li>
+                                    })}
+                                </ul>       
+                            </div>             
+                        </div>
+                    }
+                
                     <div>
                         <form onSubmit={this.handleSubmit}>
                             <div>
@@ -68,7 +92,7 @@ class UserSignUp extends Component {
                                     type="text"
                                     className=""
                                     placeholder="First Name"
-                                    value={this.state.firstName}
+                                    value={firstName}
                                     onChange={this.handleFirstNameChange}
                                  />
                             </div>
@@ -79,7 +103,7 @@ class UserSignUp extends Component {
                                     type="text"
                                     className=""
                                     placeholder="Last Name"
-                                    value={this.state.lastName}
+                                    value={lastName}
                                     onChange={this.handleLastNameChange}
                                 />
                             </div>
@@ -90,7 +114,7 @@ class UserSignUp extends Component {
                                     type="text"
                                     className=""
                                     placeholder="Email Address"
-                                    value={this.state.emailAddress}
+                                    value={emailAddress}
                                     onChange={this.handleEmailAddressChange}
                                 />
                             </div>
@@ -101,7 +125,7 @@ class UserSignUp extends Component {
                                     type="password"
                                     className=""
                                     placeholder="Password"
-                                    value={this.state.password}
+                                    value={password}
                                     onChange={this.handlePasswordChange}
                                 />
                             </div>
@@ -112,7 +136,7 @@ class UserSignUp extends Component {
                                     type="password"
                                     className=""
                                     placeholder="Confirm Password"
-                                    value={this.state.confirmPassword}
+                                    value={confirmPassword}
                                     onChange={this.handleConfirmPasswordChange}
                                 />
                             </div>

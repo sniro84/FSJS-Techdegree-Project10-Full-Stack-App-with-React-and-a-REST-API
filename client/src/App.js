@@ -10,9 +10,11 @@ import UserSignUp from './components/UserSignUp';
 import CreateCourse from './components/CreateCourse';
 import UpdateCourse from './components/UpdateCourse';
 import UserSignOut from './components/UserSignOut';
+import UnhandledError from './components/UnhandledError';
 import NotFound from './components/NotFound';
 import withContext from './Context';
 import './global.css';
+
 
 const UserSignUpWithContext = withContext(UserSignUp);
 
@@ -27,7 +29,7 @@ class App extends Component {
       <BrowserRouter>
         <div id="root">
           <div>
-            <Header signedIn={true} />
+            <Header signedIn={false} />
             <Switch>
               <Route exact path="/" component={Courses}/>
               <Route path="/courses/create" component={CreateCourse} />
@@ -36,6 +38,7 @@ class App extends Component {
               <Route path="/signin" render={ (props) => < UserSignIn {...props} signInUser={this.signIn} /> } />
               <Route path="/signup" component={UserSignUpWithContext} />
               <Route path="/signout" component={UserSignOut} />
+              <Route path="/error" component={UnhandledError} />
               <Route component={NotFound} />
             </Switch>
           </div>

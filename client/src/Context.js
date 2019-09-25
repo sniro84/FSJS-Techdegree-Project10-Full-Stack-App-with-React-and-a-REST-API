@@ -13,7 +13,7 @@ export class Provider extends Component {
   render() {
 
     const value = {
-        data: this.data
+        data: this.data,
     };
 
     return (

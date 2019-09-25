@@ -51,6 +51,7 @@ router.post('/' , async (req,res,next) => {
         if  (emailAddress && (!((/^[^@]+@[^@.]+\.[a-z]+$/i).test(emailAddress)))) {
             const err = new Error('Invalid email address (syntax error)');
             err.status= 400;
+            err.name='EmailError';
             throw(err);
         }
       
@@ -59,6 +60,7 @@ router.post('/' , async (req,res,next) => {
         if (emailAlreadyExists) {
             const err = new Error('Email already exists, try a different one.');
             err.status= 400;
+            err.name='EmailError';
             throw(err);
         }
         
@@ -78,10 +80,18 @@ router.post('/' , async (req,res,next) => {
     catch(err) {
         if (err.name === 'SequelizeValidationError') {
             const errors = err.errors.map( (error) => error.message);
-            err.status = 400;
             console.error('Validation errors: ', errors);
-        }    
-        next(err);              
+            res.status(400).json({errors});
+        }
+        else if (err.name === 'EmailError')
+        {
+            const errors = [];
+            errors.push(err.message);
+            console.error('Email address related errors: ', errors);
+            res.status(400).json({errors});
+        }
+        else    
+            next(err);              
     }    
 });
 
