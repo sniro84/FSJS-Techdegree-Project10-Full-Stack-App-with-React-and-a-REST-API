@@ -55,7 +55,7 @@ class UserSignIn extends Component {
                     {this.state.errors.length > 0 &&
                         <div className="validation-errors">
                             <div>
-                                <h2> Validation Errors : </h2>
+                                <h2 className="validation--errors--label"> Validation Errors : </h2>
                                 <ul>
                                     {this.state.errors.map( (error,index) => {
                                         return <li key={index}> {error} </li>
