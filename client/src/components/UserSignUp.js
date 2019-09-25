@@ -71,7 +71,7 @@ class UserSignUp extends Component {
                     <h1>Sign Up</h1>
 
                     {this.state.errors.length > 0 &&
-                        <div className="errors">
+                        <div className="validation-errors">
                             <div>
                                 <h2> Validation Errors : </h2>
                                 <ul>

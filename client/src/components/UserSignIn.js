@@ -5,7 +5,8 @@ class UserSignIn extends Component {
 
     state = {
         email: '',
-        password: ''
+        password: '',
+        errors: []
     };
 
     handleEmailAddressChange = (e) => {
@@ -18,7 +19,26 @@ class UserSignIn extends Component {
 
     handleSubmit = (e) => {
         e.preventDefault();
-        this.props.signInUser(this.state.email, this.state.password);    
+        const { context } = this.props;
+        const { email, password } = this.state;
+        context.actions.signIn(email,password)
+            .then( (userData) => {
+                if (userData === null) {
+                    this.setState( () => {
+                        return {errors: [ 'Sign-in was unsuccessful' ]};
+                    });   
+                }
+                else
+                {
+                    this.props.history.push("/");
+                    console.log(`SUCCESS! ${userData.emailAddress} is now signed in!`);
+                }      
+            })
+            .catch( (err) => {
+                console.log(err);
+                this.props.history.push('/error');
+            })
+           
     }
 
     handleCancel = (e) => {
@@ -31,6 +51,20 @@ class UserSignIn extends Component {
             <div className="bounds">
                 <div className="grid-33 centered signin">
                     <h1>Sign In</h1>
+
+                    {this.state.errors.length > 0 &&
+                        <div className="validation-errors">
+                            <div>
+                                <h2> Validation Errors : </h2>
+                                <ul>
+                                    {this.state.errors.map( (error,index) => {
+                                        return <li key={index}> {error} </li>
+                                    })}
+                                </ul>       
+                            </div>             
+                        </div>
+                    }
+
                     <div>
                         <form onSubmit={this.handleSubmit}>
                             <div>

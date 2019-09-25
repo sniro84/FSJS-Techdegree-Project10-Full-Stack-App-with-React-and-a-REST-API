@@ -17,6 +17,7 @@ import './global.css';
 
 
 const UserSignUpWithContext = withContext(UserSignUp);
+const UserSignInWithContext = withContext(UserSignIn);
 
 class App extends Component {
 
@@ -35,7 +36,7 @@ class App extends Component {
               <Route path="/courses/create" component={CreateCourse} />
               <Route path="/courses/:id/update" render={ (props) => < UpdateCourse {...props} /> } />
               <Route path="/courses/:id" component={CourseDetail} />
-              <Route path="/signin" render={ (props) => < UserSignIn {...props} signInUser={this.signIn} /> } />
+              <Route path="/signin" component={UserSignInWithContext} />
               <Route path="/signup" component={UserSignUpWithContext} />
               <Route path="/signout" component={UserSignOut} />
               <Route path="/error" component={UnhandledError} />

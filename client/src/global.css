@@ -743,7 +743,8 @@ input:focus {
   font-size: 28px;
 }
 .validation-errors ul {
-  color: #7c689b;
+  color: #e02113;
+  font-weight: bold;
   padding: 15px 0 40px 10px;
 }
 
