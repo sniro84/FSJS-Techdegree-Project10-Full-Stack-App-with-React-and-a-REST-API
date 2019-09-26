@@ -13,23 +13,22 @@ export default class Data {
             options.body = JSON.stringify(body);
         
         if (requiresAuth) {
-            const encodedCredentials = btoa(`${credentials.email}:${credentials.password}`);
+            const encodedCredentials = btoa(`${credentials.emailAddress}:${credentials.password}`);
             options.headers['Authorization'] = `Basic ${encodedCredentials}`;
         }
 
         return fetch(url,options);
     }
 
-    async getUser(email, password) {
-        const res = await this.api(`/users`, 'GET', null, true, {email,password} );
+    async getUser(emailAddress, password) {
+        const res = await this.api(`/users`, 'GET', null, true, {emailAddress,password} );
         if (res.status === 200) 
           return res.json().then( (data) => data);
         else if (res.status === 401) 
           return null;
-        else {
+        else 
           throw new Error();
-        }
-      }
+    }
       
     async createUser(user) {
         const res = await this.api('/users', 'POST', user);
@@ -43,4 +42,32 @@ export default class Data {
         else 
             throw new Error();
     }
+
+    async getCourses() {
+        const res = await this.api('/courses','GET');
+        if (res.status === 200)
+          return res.json().then( (data) => data);
+        else 
+          throw new Error();
+    }
+
+    async getCourse(courseID) {
+      const res = await this.api(`/courses/${courseID}`,'GET');
+      if (res.status === 200)
+        return res.json().then( (data) => data);
+      else 
+        throw new Error();
+    }
+
+    async deleteCourse(courseID) {
+      const res = await this.api(`/courses/${courseID}`, 'DELETE');
+      if (res.status === 204) 
+        return res.json().then( (data) => data);
+      else if (res.status === 401) 
+        return null;
+      else 
+        throw new Error();
+    }
+
+
 }

@@ -13,32 +13,34 @@ import UserSignOut from './components/UserSignOut';
 import UnhandledError from './components/UnhandledError';
 import NotFound from './components/NotFound';
 import withContext from './Context';
+import PrivateRoute from './PrivateRoute';
 import './global.css';
 
-
+const HeaderWithContext = withContext(Header);
+const CreateCourseWithContext = withContext(CreateCourse);
+const UpdateCourseWithContext = withContext(UpdateCourse);
 const UserSignUpWithContext = withContext(UserSignUp);
 const UserSignInWithContext = withContext(UserSignIn);
+const UserSignOutWithContext = withContext(UserSignOut);
 
 class App extends Component {
 
-  signIn = (email,password) => {
-    alert(`email : ${email} , password : ${password}`);
-  }
+  
 
   render () {
     return (
       <BrowserRouter>
         <div id="root">
           <div>
-            <Header signedIn={false} />
+            <HeaderWithContext />
             <Switch>
               <Route exact path="/" component={Courses}/>
-              <Route path="/courses/create" component={CreateCourse} />
-              <Route path="/courses/:id/update" render={ (props) => < UpdateCourse {...props} /> } />
+              <PrivateRoute path="/courses/create" component={CreateCourseWithContext} />
+              <PrivateRoute path="/courses/:id/update" component={UpdateCourseWithContext} />
               <Route path="/courses/:id" component={CourseDetail} />
               <Route path="/signin" component={UserSignInWithContext} />
               <Route path="/signup" component={UserSignUpWithContext} />
-              <Route path="/signout" component={UserSignOut} />
+              <Route path="/signout" component={UserSignOutWithContext} />
               <Route path="/error" component={UnhandledError} />
               <Route component={NotFound} />
             </Switch>

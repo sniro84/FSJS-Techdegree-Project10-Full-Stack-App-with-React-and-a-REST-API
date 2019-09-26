@@ -35,27 +35,30 @@ class UserSignUp extends Component {
     handleSubmit = (e) => {
         e.preventDefault();
         const { context } = this.props;
-        const {firstName,lastName,emailAddress,password} = this.state;
+        const {firstName,lastName,emailAddress,password,confirmPassword} = this.state;
         const user = {firstName,lastName,emailAddress,password}; 
 
         context.data.createUser(user)
             .then( (errors) => {
                 if (errors.length) 
                     this.setState({errors});
-                else if(this.state.password !== this.state.confirmPassword) {
+                else if(password !== confirmPassword) {
                     this.setState({
                         errors: [...this.state.errors, "Please confirm your password." ]
                       });
                 }
-                else
-                    console.log(`${emailAddress} is successfully signed up and authenticated!`);    
+                else {
+                    context.actions.signIn(emailAddress, password)
+                        .then( () => {
+                            this.props.history.push("/")
+                        });  
+                    console.log(`${emailAddress} is successfully signed up and authenticated!`);     
+                }          
             })
             .catch( (error) => {
                 console.log(error);
                 this.props.history.push('/error');
-            });
-            
-              
+            });     
     }
 
     handleCancel = (e) => {
@@ -72,20 +75,20 @@ class UserSignUp extends Component {
 
                     {this.state.errors.length > 0 &&
                         <div className="validation-errors">
-                            <div>
+                            <React.Fragment>
                                 <h2 className="validation--errors--label"> Validation Errors : </h2>
                                 <ul>
                                     {this.state.errors.map( (error,index) => {
                                         return <li key={index}> {error} </li>
                                     })}
-                                </ul>       
-                            </div>             
+                                </ul> 
+                            </React.Fragment>             
                         </div>
                     }
-                
-                    <div>
+                    
+                    <React.Fragment>
                         <form onSubmit={this.handleSubmit}>
-                            <div>
+                            <React.Fragment>
                                 <input 
                                     id="firstName"
                                     name="firstName"
@@ -94,9 +97,7 @@ class UserSignUp extends Component {
                                     placeholder="First Name"
                                     value={firstName}
                                     onChange={this.handleFirstNameChange}
-                                 />
-                            </div>
-                            <div>
+                                />
                                 <input 
                                     id="lastName"
                                     name="lastName"
@@ -106,8 +107,6 @@ class UserSignUp extends Component {
                                     value={lastName}
                                     onChange={this.handleLastNameChange}
                                 />
-                            </div>
-                            <div>
                                 <input 
                                     id="emailAddress"
                                     name="emailAddress"
@@ -117,8 +116,6 @@ class UserSignUp extends Component {
                                     value={emailAddress}
                                     onChange={this.handleEmailAddressChange}
                                 />
-                            </div>
-                            <div>
                                 <input 
                                     id="password"
                                     name="password"
@@ -128,8 +125,6 @@ class UserSignUp extends Component {
                                     value={password}
                                     onChange={this.handlePasswordChange}
                                 />
-                            </div>
-                            <div>
                                 <input 
                                     id="confirmPassword"
                                     name="confirmPassword"
@@ -139,12 +134,14 @@ class UserSignUp extends Component {
                                     value={confirmPassword}
                                     onChange={this.handleConfirmPasswordChange}
                                 />
-                            </div>
+                            </React.Fragment>
+                            
                             <div className="grid-100 pad-bottom">
                                 <button className="button" type="submit">Sign Up</button>
-                                <button className="button button-secondary" onClick={this.handleCancel} >Cancel</button></div>
+                                <button className="button button-secondary" onClick={this.handleCancel} >Cancel</button>
+                            </div>
                         </form>
-                    </div>
+                    </React.Fragment>
                 <p>&nbsp;</p>
                 <p>Already have a user account? 
                     <Link to="/signin">Click here</Link> to sign in!

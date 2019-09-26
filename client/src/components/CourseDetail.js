@@ -1,33 +1,40 @@
 import React, {Component} from 'react';
+import Data from '../Data';
 import {Link} from 'react-router-dom';
 
 class CourseDetail extends Component {
+
+    constructor() {
+        super();
+        this.data = new Data();
+    }
 
     state = {
         courseDetail: {},
         userDetail: {}
     };
 
-    handleDeleteCourse = () => {
-        const url = `http://localhost:5000/api/courses/${this.props.match.params.id}`;
-        return fetch(url , {
-            method: 'DELETE',
-            headers: {'Content-Type': 'application/json'}
-           
-        })
-         .then( (res) => res.json() )
-         .catch( (error) => console.log('Error: cannot delete course', error) )
-    }
-
     componentDidMount() {
-        fetch(`http://localhost:5000/api/courses/${this.props.match.params.id}`)
-            .then( (res) => res.json() )
+        this.data.getCourse(this.props.match.params.id)
             .then( (data) => {
                 this.setState({ courseDetail: data })
                 this.setState({ userDetail: data.User })
             }) 
-            .catch( (error) => console.log('Error: failed to fetch data from api', error)) 
-        }
+            .catch( (error) => {
+                console.log('Error: failed to fetch data from api', error);
+                this.props.history.push("/notfound"); 
+            });            
+    }
+
+    handleDeleteCourse = () => {
+        this.data.deleteCourse(this.props.match.params.id)
+            .catch( (error) => {
+                console.log('Error: cannot delete course', error);
+                this.props.history.push("/notfound");
+            });
+    }
+
+    
 
     render() {
         let id = this.props.match.params.id;
