@@ -11,7 +11,7 @@ export default class Data {
 
         if (body !== null)
             options.body = JSON.stringify(body);
-     
+
         if (requiresAuth) {
             const encodedCredentials = btoa(`${credentials.emailAddress}:${credentials.password}`);
             options.headers['Authorization'] = `Basic ${encodedCredentials}`;
