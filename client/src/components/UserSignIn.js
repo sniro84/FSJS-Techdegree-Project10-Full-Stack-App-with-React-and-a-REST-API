@@ -30,8 +30,7 @@ class UserSignIn extends Component {
                         return {errors: [ 'Sign-in was unsuccessful' ]};
                     });   
                 }
-                else
-                {
+                else {
                     this.props.history.push(from);
                     console.log(`SUCCESS! ${userData.emailAddress} is now signed in!`);
                 }      
