@@ -14,7 +14,6 @@ class CourseDetail extends Component {
             .then( (data) => {
                 this.setState({ courseDetail: data })
                 this.setState({ userDetail: data.User })
-                console.log(this.state.userDetail); 
             }) 
             .catch( (error) => {
                 console.log('Error: failed to fetch data from api', error);
