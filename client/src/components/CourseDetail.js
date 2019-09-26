@@ -1,13 +1,7 @@
 import React, {Component} from 'react';
-import Data from '../Data';
 import {Link} from 'react-router-dom';
 
 class CourseDetail extends Component {
-
-    constructor() {
-        super();
-        this.data = new Data();
-    }
 
     state = {
         courseDetail: {},
@@ -15,15 +9,18 @@ class CourseDetail extends Component {
     };
 
     componentDidMount() {
-        this.data.getCourse(this.props.match.params.id)
+        const { context } = this.props;
+        context.data.getCourse(this.props.match.params.id)
             .then( (data) => {
                 this.setState({ courseDetail: data })
                 this.setState({ userDetail: data.User })
+                console.log(this.state.userDetail); 
             }) 
             .catch( (error) => {
                 console.log('Error: failed to fetch data from api', error);
                 this.props.history.push("/notfound"); 
-            });            
+            });
+                       
     }
 
     handleDeleteCourse = () => {
@@ -31,14 +28,12 @@ class CourseDetail extends Component {
         const {emailAddress, password} = context.authenticatedUser;      
         const courseID = this.props.match.params.id;
 
-        this.data.deleteCourse(courseID, emailAddress, password)
+        context.data.deleteCourse(courseID, emailAddress, password)
             .catch( (error) => {
                 console.log('Error: cannot delete course', error);
                 this.props.history.push("/notfound");
             });
     }
-
-    
 
     render() {
         let id = this.props.match.params.id;
