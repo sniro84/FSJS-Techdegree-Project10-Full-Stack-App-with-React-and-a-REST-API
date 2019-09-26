@@ -22,7 +22,7 @@ class UserSignIn extends Component {
         const { context } = this.props;
         const { from } = this.props.location.state || { from: { pathname: "/" } };
         const { email, password } = this.state;
-
+    
         context.actions.signIn(email,password)
             .then( (userData) => {
                 if (userData === null) {

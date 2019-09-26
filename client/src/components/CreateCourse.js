@@ -49,8 +49,6 @@ class CreateCourse extends Component {
     }
 
     render() {
-        // const authUser = this.props.context.authenticatedUser;
-        // console.log(authUser);
 
         return (
             <div className="bounds course--detail">

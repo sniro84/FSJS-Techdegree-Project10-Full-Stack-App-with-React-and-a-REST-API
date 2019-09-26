@@ -1,7 +1,7 @@
 export default class Data {
     api(path, method='GET',body = null, requiresAuth = false, credentials = null) {
         const url = 'http://localhost:5000/api' + path;
-
+        
         const options = {
             method,
             headers: {
@@ -11,7 +11,7 @@ export default class Data {
 
         if (body !== null)
             options.body = JSON.stringify(body);
-        
+     
         if (requiresAuth) {
             const encodedCredentials = btoa(`${credentials.emailAddress}:${credentials.password}`);
             options.headers['Authorization'] = `Basic ${encodedCredentials}`;
@@ -59,8 +59,8 @@ export default class Data {
         throw new Error();
     }
 
-    async deleteCourse(courseID) {
-      const res = await this.api(`/courses/${courseID}`, 'DELETE');
+    async deleteCourse(courseID, emailAddress, password) {
+      const res = await this.api(`/courses/${courseID}`, 'DELETE',null, true, {emailAddress,password});
       if (res.status === 204) 
         return res.json().then( (data) => data);
       else if (res.status === 401) 
@@ -68,6 +68,4 @@ export default class Data {
       else 
         throw new Error();
     }
-
-
 }

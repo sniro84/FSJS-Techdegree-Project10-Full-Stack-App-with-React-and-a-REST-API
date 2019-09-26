@@ -33,7 +33,7 @@ const authenticateUser = async (req,res,next) => {
         /* Attempt to retrieve the user from the data store by their email
            (i.e. the user's "key" from the Authorization header). */
         const user = users.find( (user) => user.emailAddress === credentials.name );
-
+              
         // If a user was successfully retrieved from the data store...
         if (user) {
             /* Use the bcryptjs npm package to compare the user's password (from the Authorization header)

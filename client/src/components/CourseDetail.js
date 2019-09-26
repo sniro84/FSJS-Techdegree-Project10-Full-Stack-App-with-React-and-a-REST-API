@@ -27,7 +27,11 @@ class CourseDetail extends Component {
     }
 
     handleDeleteCourse = () => {
-        this.data.deleteCourse(this.props.match.params.id)
+        const { context } = this.props;
+        const {emailAddress, password} = context.authenticatedUser;      
+        const courseID = this.props.match.params.id;
+
+        this.data.deleteCourse(courseID, emailAddress, password)
             .catch( (error) => {
                 console.log('Error: cannot delete course', error);
                 this.props.history.push("/notfound");

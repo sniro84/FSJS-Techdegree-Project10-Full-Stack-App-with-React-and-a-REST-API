@@ -17,6 +17,7 @@ import PrivateRoute from './PrivateRoute';
 import './global.css';
 
 const HeaderWithContext = withContext(Header);
+const CourseDetailWithContext = withContext(CourseDetail);
 const CreateCourseWithContext = withContext(CreateCourse);
 const UpdateCourseWithContext = withContext(UpdateCourse);
 const UserSignUpWithContext = withContext(UserSignUp);
@@ -37,7 +38,7 @@ class App extends Component {
               <Route exact path="/" component={Courses}/>
               <PrivateRoute path="/courses/create" component={CreateCourseWithContext} />
               <PrivateRoute path="/courses/:id/update" component={UpdateCourseWithContext} />
-              <Route path="/courses/:id" component={CourseDetail} />
+              <Route path="/courses/:id" component={CourseDetailWithContext} />
               <Route path="/signin" component={UserSignInWithContext} />
               <Route path="/signup" component={UserSignUpWithContext} />
               <Route path="/signout" component={UserSignOutWithContext} />
