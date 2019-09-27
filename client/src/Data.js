@@ -64,8 +64,8 @@ export default class Data {
       if (res.status === 204) 
         return [];
       else if (res.status === 401) 
-        return null;
-      else 
+        return null; 
+      else
         throw new Error();
     }
 }

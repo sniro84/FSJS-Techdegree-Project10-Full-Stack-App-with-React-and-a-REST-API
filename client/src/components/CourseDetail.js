@@ -34,8 +34,7 @@ class CourseDetail extends Component {
                 console.log('Error: cannot delete course', error);
                 this.props.history.push("/notfound");
             });
-        ;
-           
+       
     }
 
     render() {

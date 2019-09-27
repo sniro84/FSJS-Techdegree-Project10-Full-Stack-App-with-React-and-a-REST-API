@@ -8,7 +8,7 @@ export class Provider extends Component {
 
   state = {
       authenticatedUser: Cookies.getJSON('authenticatedUser') || null,
-      originalPassword : ''
+      originalPassword : Cookies.get('originalPassword') || ''
   };  
 
   constructor() {
@@ -46,15 +46,18 @@ export class Provider extends Component {
             };
         });
         Cookies.set('authenticatedUser',JSON.stringify(userData), { expires: 1 });
+        Cookies.set('originalPassword',password,{expires: 1});
     }
     return userData;
   }
 
   signOut = () => {
     this.setState({ 
-      authenticatedUser: null
+      authenticatedUser: null,
+      originalPassword: ''
     });
     Cookies.remove('authenticatedUser');
+    Cookies.remove('originalPassword');
   }
 }
 
