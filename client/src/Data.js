@@ -61,11 +61,18 @@ export default class Data {
 
     async deleteCourse(courseID, emailAddress, password) {
       const res = await this.api(`/courses/${courseID}`, 'DELETE',null, true, {emailAddress,password});
-      if (res.status === 204) 
-        return [];
-      else if (res.status === 401) 
-        return null; 
-      else
-        throw new Error();
+      const promise = new Promise( (resolve,reject) => {
+          if (res.status === 204)
+            resolve('Successfully deleted.'); 
+          else {
+              if (res.status === 401)
+                  reject('Unauthorized.');
+              else if(res.status === 403)
+                  reject('Forbidden');  
+              else
+                  reject('Unhandled Error');  
+          }   
+      });
+      return promise;
     }
 }

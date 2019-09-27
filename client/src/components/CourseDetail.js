@@ -29,12 +29,11 @@ class CourseDetail extends Component {
         const courseID = this.props.match.params.id;
         
         context.data.deleteCourse(courseID, emailAddress, password)
-            .then(setTimeout( () => this.props.history.push("/") , 500))
+            .then( () => setTimeout( () => this.props.history.push("/") , 500))   
             .catch( (error) => {
-                console.log('Error: cannot delete course', error);
+                console.log('Failed to delete course : ', error);
                 this.props.history.push("/notfound");
-            });
-       
+            });  
     }
 
     render() {
@@ -42,12 +41,17 @@ class CourseDetail extends Component {
         const {title,description,estimatedTime,materialsNeeded} = this.state.courseDetail;
         const {firstName, lastName} = this.state.userDetail;
 
+        // const { context } = this.props;
+        // console.log(this.state);
+        // console.log(context.authenticatedUser);
+
         return (
             <div>
                 <div className="actions--bar">
                     <div className="bounds">
                         <div className="grid-100">
                             <span>
+                                
                                 <Link 
                                     className="button" 
                                     to={{
