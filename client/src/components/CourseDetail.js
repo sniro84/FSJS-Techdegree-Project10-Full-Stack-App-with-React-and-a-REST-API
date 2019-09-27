@@ -18,20 +18,24 @@ class CourseDetail extends Component {
             .catch( (error) => {
                 console.log('Error: failed to fetch data from api', error);
                 this.props.history.push("/notfound"); 
-            });
-                       
+            });                   
     }
 
-    handleDeleteCourse = () => {
+    handleDeleteCourse = (e) => {
+        e.preventDefault();
         const { context } = this.props;
-        const {emailAddress, password} = context.authenticatedUser;      
+        const {emailAddress} = context.authenticatedUser;
+        const password = context.originalPassword;      
         const courseID = this.props.match.params.id;
-
+        
         context.data.deleteCourse(courseID, emailAddress, password)
+            .then(setTimeout( () => this.props.history.push("/") , 500))
             .catch( (error) => {
                 console.log('Error: cannot delete course', error);
                 this.props.history.push("/notfound");
             });
+        ;
+           
     }
 
     render() {

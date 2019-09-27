@@ -1,20 +1,15 @@
 import React, {Component} from 'react';
-import Data from '../Data';
 import {Link} from 'react-router-dom';
 
 class Courses extends Component {
-    
-    constructor() {
-        super();
-        this.data = new Data();
-    }
     
     state = {
         courses: []
     };
     
     componentDidMount() {
-        this.data.getCourses()
+        const { context } = this.props;
+        context.data.getCourses()
             .then( (data) => this.setState({ courses: data }))
             .catch( (error) => {
                 console.log('Error: failed to fetch data from api', error); 
