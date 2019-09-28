@@ -41,12 +41,12 @@ class CourseDetail extends Component {
         const {title,description,estimatedTime,materialsNeeded} = this.state.courseDetail;
         const {firstName, lastName} = this.state.userDetail;
 
-        // const { context } = this.props;
-        // console.log(this.state);
-        // console.log(context.authenticatedUser);
+        const { context } = this.props;
+        console.log(this.state);
+        console.log(context.authenticatedUser);
 
         return (
-            <div>
+            <React.Fragment>
                 <div className="actions--bar">
                     <div className="bounds">
                         <div className="grid-100">
@@ -97,7 +97,7 @@ class CourseDetail extends Component {
                         </div>
                     </div>
                 </div>
-            </div>   
+            </React.Fragment>   
         );
     }
 }
