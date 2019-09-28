@@ -4,7 +4,7 @@ class DeleteCourse extends Component {
 
     state = {
         confirmTitle: '',
-        errors: []
+        error: '' 
     };
 
     handleConfirmTitleChange = (e) => {
@@ -19,13 +19,12 @@ class DeleteCourse extends Component {
         const password = context.originalPassword;
         const confirmTitle = this.state.confirmTitle;
         const courseTitle = this.props.location.state.title;
-        const {errors} = this.state;
 
         if (confirmTitle === courseTitle) {
             context.data.deleteCourse(courseID, emailAddress, password)
             .then( () => {
                 console.log('Course has been successfully deleted.');
-                this.setState({ errors : [] });
+                this.setState({ error: '' });
                 setTimeout( () => this.props.history.push("/") , 500);
             })   
             .catch( (error) => {
@@ -34,11 +33,9 @@ class DeleteCourse extends Component {
             });  
         }  
         else {
-            if (errors.length > 0)
-                errors.pop();
-            errors.push(`Course title in the confirmation box doesn't match the target course.`);
-            this.setState({errors});
-        }
+            const message = `Course title in the confirmation box doesn't match the target course's title.`;
+            this.setState({error: message }); 
+        }       
     }
 
     handleCancel = (e) => {
@@ -49,26 +46,22 @@ class DeleteCourse extends Component {
     render () {
         const confirmTitle = this.state.confirmTitle;
         const courseTitle = this.props.location.state.title;
+        const {error} = this.state;
 
         return (
             <div className="bounds course--detail">
                 <h1>Warning!</h1>
                 <p>
-                    This action will delete the <b> '{this.props.location.state.title}' </b> course.
+                    This action will delete the <b> '{courseTitle}' </b> course.
                     Once it is deleted, it <b> CANNOT </b> be recovered.
                 </p>
                 <p>
                     Please type the course title below to confirm the deletion:
                 </p>
 
-                { (this.state.errors.length > 0) && (courseTitle !== confirmTitle) && 
+                { (error !== '') && (courseTitle !== confirmTitle) && 
                     <div className="validation-errors">
-                        <h2 className="validation--errors--label"> Validation Errors : </h2>
-                        <ul>
-                            {this.state.errors.map( (error,index) => {
-                                return <li key={index}> {error} </li>
-                            })}
-                        </ul>     
+                        <h3> {error} </h3>    
                     </div>
                 }
  
@@ -80,7 +73,7 @@ class DeleteCourse extends Component {
                                 name="title" 
                                 className="input-title course--title--input"
                                 placeholder="Confirm title..."
-                                value={this.state.confirmTitle}
+                                value={confirmTitle}
                                 onChange={this.handleConfirmTitleChange}
                             />  
                         </div>

@@ -61,19 +61,12 @@ export default class Data {
 
     async deleteCourse(courseID, emailAddress, password) {
       const res = await this.api(`/courses/${courseID}`, 'DELETE',null, true, {emailAddress,password});
-      const promise = new Promise( (resolve,reject) => {
-          if (res.status === 204)
-            resolve('Successfully deleted.'); 
-          else {
-              if (res.status === 401)
-                  reject('Unauthorized.');
-              else if(res.status === 403)
-                  reject('Forbidden');  
-              else
-                  reject('Unhandled Error');  
-          }   
-      });
-      return promise;
+      if (res.status === 204)
+          return [];
+      else if (res.status === 401)
+          return null;
+      else
+          throw new Error();          
     }
 
     async updateCourse(courseID, body, emailAddress, password) {
@@ -87,6 +80,18 @@ export default class Data {
       }
       else 
           throw new Error();
-  }
+    }
 
+    async createCourse(body, emailAddress, password) {
+      const res = await this.api('/courses', 'POST', body, true, {emailAddress,password});
+      if (res.status === 201) 
+          return [];
+      else if (res.status === 400) {
+          return res.json().then( (data) => {
+              return data.errors;
+          });
+      }
+      else 
+          throw new Error();
+    }
 }

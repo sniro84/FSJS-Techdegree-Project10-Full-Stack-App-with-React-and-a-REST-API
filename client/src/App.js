@@ -29,8 +29,6 @@ const UserSignOutWithContext = withContext(UserSignOut);
 
 class App extends Component {
 
-  
-
   render () {
     return (
       <BrowserRouter>
