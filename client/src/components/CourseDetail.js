@@ -21,24 +21,6 @@ class CourseDetail extends Component {
             });                   
     }
 
-    // handleDeleteCourse = (e) => {
-    //     e.preventDefault();
-    //     const { context } = this.props;
-    //     const {emailAddress} = context.authenticatedUser;
-    //     const password = context.originalPassword;      
-    //     const courseID = this.props.match.params.id;
-        
-    //     context.data.deleteCourse(courseID, emailAddress, password)
-    //         .then( () => {
-    //             console.log('Course has been successfully deleted.');
-    //             setTimeout( () => this.props.history.push("/") , 500);
-    //         })   
-    //         .catch( (error) => {
-    //             console.log('Failed to delete course : ', error);
-    //             this.props.history.push("/notfound");
-    //         });  
-    // }
-
     render() {
         let id = this.props.match.params.id;
         const {title,description,estimatedTime,materialsNeeded} = this.state.courseDetail;
@@ -66,8 +48,6 @@ class CourseDetail extends Component {
                                             </Link>
                                             <Link 
                                                 className="button" 
-                                                // onClick={this.handleDeleteCourse} 
-                                                // to="/"> Delete Course
                                                 to={{
                                                     pathname: `/courses/${id}/delete`,
                                                     state: {id,title,description,estimatedTime,materialsNeeded}
