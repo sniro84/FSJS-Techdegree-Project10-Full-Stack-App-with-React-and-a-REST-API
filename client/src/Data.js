@@ -75,4 +75,18 @@ export default class Data {
       });
       return promise;
     }
+
+    async updateCourse(courseID, body, emailAddress, password) {
+      const res = await this.api(`/courses/${courseID}`, 'PUT', body, true, {emailAddress,password});
+      if (res.status === 204) 
+          return [];
+      else if (res.status === 400) {
+          return res.json().then( (data) => {
+              return data.validationErrors;
+          });
+      }
+      else 
+          throw new Error();
+  }
+
 }

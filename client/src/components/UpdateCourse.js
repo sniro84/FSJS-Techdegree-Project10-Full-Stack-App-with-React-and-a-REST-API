@@ -6,7 +6,8 @@ class UpdateCourse extends Component {
         title: this.props.location.state.title,
         description: this.props.location.state.description,
         estimatedTime: this.props.location.state.estimatedTime,
-        materialsNeeded: this.props.location.state.title.materialsNeeded
+        materialsNeeded: this.props.location.state.title.materialsNeeded,
+        errors: []
     };
 
     handleTitleChange = (e) => {
@@ -27,20 +28,27 @@ class UpdateCourse extends Component {
 
     handleSubmit = (e) => {
         e.preventDefault();
-        alert(`title: ${this.state.title} description: ${this.state.description} `);
-        const url = `http://localhost:5000/api/courses/${this.props.location.state.id}`;
-        return fetch(url , {
-            method: 'PUT',
-            body: {
-                "title":  this.state.title,
-                "description": this.state.description,
-                "estimatedTime": this.state.estimatedTime,
-                "materialsNeeded":  this.state.materialsNeeded
-            },
-            headers: {'Content-Type': 'application/json'}
-        })
-         .then( (res) => res.json() )
-         .catch( (error) => console.log('Error: cannot update course', error) )
+        const {title,description,estimatedTime,materialsNeeded} = this.state;
+        const courseID = this.props.location.state.id;
+        const { context } = this.props;
+        const emailAddress = context.authenticatedUser.emailAddress;
+        const userId = context.authenticatedUser.id;
+        const password = context.originalPassword;
+        const body = {userId,title,description,estimatedTime,materialsNeeded}
+
+        context.data.updateCourse(courseID, body, emailAddress, password)
+            .then( (errors) => {
+                if (errors.length) 
+                    this.setState({errors});   
+                else {
+                    this.props.history.push("/");
+                    console.log('Course has been successfully updated.');          
+                }
+            })
+            .catch( (error) => {
+                console.log(error);
+                this.props.history.push('/error');
+            });  
     }
 
     handleCancel = (e) => {
@@ -49,81 +57,84 @@ class UpdateCourse extends Component {
     }
 
     render () {
+        const { context } = this.props;
+        const {firstName,lastName} = context.authenticatedUser;
         return (
             <div className="bounds course--detail">
                 <h1>Update Course</h1>
-                <div>
-                    <form onSubmit={this.handleSubmit}>
-                        <div className="grid-66">
-                            <div className="course--header">
-                                <h4 className="course--label">Course</h4>
-                                <div>
-                                    <input 
-                                        id="title"
-                                        name="title"
+
+                {this.state.errors.length > 0 &&
+                    <div className="validation-errors">
+                        <h2 className="validation--errors--label"> Validation Errors : </h2>
+                        <ul>
+                            {this.state.errors.map( (error,index) => {
+                                return <li key={index}> {error} </li>
+                            })}
+                        </ul>     
+                    </div>
+                }
+ 
+                <form onSubmit={this.handleSubmit}>
+                    <div className="grid-66">
+                        <div className="course--header">
+                            <h4 className="course--label">Course</h4>
+                            <input 
+                                id="title"
+                                name="title"
+                                type="text"
+                                className="input-title course--title--input"
+                                placeholder="Course title..."
+                                value={this.state.title}
+                                onChange={this.handleTitleChange}
+                            />        
+                            <p>By {firstName} {lastName} </p>
+                        </div>
+                        <div className="course--description">
+                            <textarea 
+                                id="description" 
+                                name="description" 
+                                className=""
+                                placeholder="Course description..."
+                                value={this.state.description}
+                                onChange={this.handleDescriptionChange}
+                            />  
+                        </div>
+                    </div>
+                    <div className="grid-25 grid-right">
+                        <div className="course--stats">
+                            <ul className="course--stats--list">
+                                <li className="course--stats--list--item">
+                                    <h4>Estimated Time</h4>
+                                    <input
+                                        id="estimatedTime"
+                                        name="estimatedTime"
                                         type="text"
-                                        className="input-title course--title--input"
-                                        placeholder="Course title..."
-                                        value={this.state.title}
-                                        onChange={this.handleTitleChange}
+                                        className="course--time--input"
+                                        placeholder="Hours"
+                                        value={(this.state.estimatedTime) ? this.state.estimatedTime : ""}
+                                        onChange={this.handleEstimatedTimeChange}
                                     />        
-                                </div>
-                                <p>By Joe Smith</p>
-                            </div>
-                            <div className="course--description">
-                                <div>
+                                    
+                                </li>
+                                <li className="course--stats--list--item">
+                                    <h4>Materials Needed</h4>
                                     <textarea 
-                                        id="description" 
-                                        name="description" 
+                                        id="materialsNeeded"
+                                        name="materialsNeeded"
                                         className=""
-                                        placeholder="Course description..."
-                                        value={this.state.description}
-                                        onChange={this.handleDescriptionChange}
-                                    >  
-                                    </textarea>
-                                </div>
-                            </div>
+                                        placeholder="List materials..."
+                                        value={(this.state.materialsNeeded) ? this.state.materialsNeeded : ""}
+                                        onChange={this.handleMaterialsNeededChange}
+                                    />
+                                </li>
+                            </ul>
                         </div>
-                        <div className="grid-25 grid-right">
-                            <div className="course--stats">
-                                <ul className="course--stats--list">
-                                    <li className="course--stats--list--item">
-                                        <h4>Estimated Time</h4>
-                                        <div>
-                                            <input
-                                                id="estimatedTime"
-                                                name="estimatedTime"
-                                                type="text"
-                                                className="course--time--input"
-                                                placeholder="Hours"
-                                                value={(this.state.estimatedTime) ? this.state.estimatedTime : ""}
-                                                onChange={this.handleEstimatedTimeChange}
-                                            />        
-                                        </div>
-                                    </li>
-                                    <li className="course--stats--list--item">
-                                        <h4>Materials Needed</h4>
-                                        <div>
-                                            <textarea 
-                                                id="materialsNeeded"
-                                                name="materialsNeeded"
-                                                className=""
-                                                placeholder="List materials..."
-                                                value={(this.state.materialsNeeded) ? this.state.materialsNeeded : ""}
-                                                onChange={this.handleMaterialsNeededChange}
-                                            >
-                                            </textarea>
-                                        </div>
-                                    </li>
-                                </ul>
-                            </div>
-                        </div>
-                        <div className="grid-100 pad-bottom">
-                            <button className="button" type="submit">Update Course</button>
-                            <button className="button button-secondary" onClick={this.handleCancel} >Cancel</button>
-                        </div>
-                    </form>
-                </div>
+                    </div>
+                    <div className="grid-100 pad-bottom">
+                        <button className="button" type="submit">Update Course</button>
+                        <button className="button button-secondary" onClick={this.handleCancel} >Cancel</button>
+                    </div>
+                </form>  
             </div>
         );
     }

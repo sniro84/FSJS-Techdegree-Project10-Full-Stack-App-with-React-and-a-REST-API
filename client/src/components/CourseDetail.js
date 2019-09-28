@@ -21,46 +21,61 @@ class CourseDetail extends Component {
             });                   
     }
 
-    handleDeleteCourse = (e) => {
-        e.preventDefault();
-        const { context } = this.props;
-        const {emailAddress} = context.authenticatedUser;
-        const password = context.originalPassword;      
-        const courseID = this.props.match.params.id;
+    // handleDeleteCourse = (e) => {
+    //     e.preventDefault();
+    //     const { context } = this.props;
+    //     const {emailAddress} = context.authenticatedUser;
+    //     const password = context.originalPassword;      
+    //     const courseID = this.props.match.params.id;
         
-        context.data.deleteCourse(courseID, emailAddress, password)
-            .then( () => setTimeout( () => this.props.history.push("/") , 500))   
-            .catch( (error) => {
-                console.log('Failed to delete course : ', error);
-                this.props.history.push("/notfound");
-            });  
-    }
+    //     context.data.deleteCourse(courseID, emailAddress, password)
+    //         .then( () => {
+    //             console.log('Course has been successfully deleted.');
+    //             setTimeout( () => this.props.history.push("/") , 500);
+    //         })   
+    //         .catch( (error) => {
+    //             console.log('Failed to delete course : ', error);
+    //             this.props.history.push("/notfound");
+    //         });  
+    // }
 
     render() {
         let id = this.props.match.params.id;
         const {title,description,estimatedTime,materialsNeeded} = this.state.courseDetail;
         const {firstName, lastName} = this.state.userDetail;
-
         const { context } = this.props;
-        console.log(this.state);
-        console.log(context.authenticatedUser);
+
+        // console.log(this.state);
+        // console.log(context.authenticatedUser);
 
         return (
             <React.Fragment>
                 <div className="actions--bar">
                     <div className="bounds">
                         <div className="grid-100">
-                            <span>
-                                
-                                <Link 
-                                    className="button" 
-                                    to={{
-                                        pathname: `/courses/${id}/update`,
-                                        state: {id,title,description,estimatedTime,materialsNeeded}
-                                    }}> Update Course        
-                                </Link>
-                                <Link className="button" onClick={this.handleDeleteCourse} to="/">Delete Course</Link>
-                            </span>
+
+                            { (context.authenticatedUser) 
+                                && (context.authenticatedUser.id === this.state.userDetail.id)
+                                    &&  <React.Fragment>
+                                            <Link 
+                                                className="button" 
+                                                to={{
+                                                    pathname: `/courses/${id}/update`,
+                                                    state: {id,title,description,estimatedTime,materialsNeeded}
+                                                }}> Update Course        
+                                            </Link>
+                                            <Link 
+                                                className="button" 
+                                                // onClick={this.handleDeleteCourse} 
+                                                // to="/"> Delete Course
+                                                to={{
+                                                    pathname: `/courses/${id}/delete`,
+                                                    state: {id,title,description,estimatedTime,materialsNeeded}
+                                                }}> Delete Course           
+                                            </Link>
+                                        </React.Fragment>
+                                }
+
                             <Link className="button button-secondary" to="/">Return to List</Link>
                         </div>
                     </div>

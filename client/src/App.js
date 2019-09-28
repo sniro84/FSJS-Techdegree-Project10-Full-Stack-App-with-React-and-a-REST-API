@@ -9,6 +9,7 @@ import UserSignIn from './components/UserSignIn';
 import UserSignUp from './components/UserSignUp';
 import CreateCourse from './components/CreateCourse';
 import UpdateCourse from './components/UpdateCourse';
+import DeleteCourse from './components/DeleteCourse';
 import UserSignOut from './components/UserSignOut';
 import UnhandledError from './components/UnhandledError';
 import NotFound from './components/NotFound';
@@ -21,6 +22,7 @@ const CoursesWithContext = withContext(Courses);
 const CourseDetailWithContext = withContext(CourseDetail);
 const CreateCourseWithContext = withContext(CreateCourse);
 const UpdateCourseWithContext = withContext(UpdateCourse);
+const DeleteCourseWithContext = withContext(DeleteCourse);
 const UserSignUpWithContext = withContext(UserSignUp);
 const UserSignInWithContext = withContext(UserSignIn);
 const UserSignOutWithContext = withContext(UserSignOut);
@@ -39,6 +41,7 @@ class App extends Component {
               <Route exact path="/" component={CoursesWithContext}/>
               <PrivateRoute path="/courses/create" component={CreateCourseWithContext} />
               <PrivateRoute path="/courses/:id/update" component={UpdateCourseWithContext} />
+              <PrivateRoute path="/courses/:id/delete" component={DeleteCourseWithContext} />
               <Route path="/courses/:id" component={CourseDetailWithContext} />
               <Route path="/signin" component={UserSignInWithContext} />
               <Route path="/signup" component={UserSignUpWithContext} />
