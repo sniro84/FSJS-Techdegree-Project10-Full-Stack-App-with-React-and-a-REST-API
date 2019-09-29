@@ -56,7 +56,7 @@ class CreateCourse extends Component {
     }
 
     render() {
-
+        
         return (
             <div className="bounds course--detail">
                 <h1>Create Course</h1>

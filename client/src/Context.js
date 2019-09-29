@@ -8,7 +8,7 @@ export class Provider extends Component {
 
   state = {
       authenticatedUser: Cookies.getJSON('authenticatedUser') || null,
-      originalPassword : Cookies.get('originalPassword') || ''
+      originalPassword : Cookies.get('originalPassword') || '',
   };  
 
   constructor() {
@@ -25,7 +25,7 @@ export class Provider extends Component {
         data: this.data,
         actions: { 
             signIn: this.signIn,
-            signOut: this.signOut
+            signOut: this.signOut,
         }
     };
 
@@ -46,7 +46,7 @@ export class Provider extends Component {
             };
         });
         Cookies.set('authenticatedUser',JSON.stringify(userData), { expires: 1 });
-        Cookies.set('originalPassword',password,{expires: 1});
+        Cookies.set('originalPassword',password,{expires: 1});  
     }
     return userData;
   }
@@ -54,11 +54,13 @@ export class Provider extends Component {
   signOut = () => {
     this.setState({ 
       authenticatedUser: null,
-      originalPassword: ''
+      originalPassword: '',
+      previousLocation: null
     });
     Cookies.remove('authenticatedUser');
     Cookies.remove('originalPassword');
   }
+
 }
 
 export const Consumer = Context.Consumer;

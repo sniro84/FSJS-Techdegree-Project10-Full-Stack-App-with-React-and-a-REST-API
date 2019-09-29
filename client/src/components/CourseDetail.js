@@ -27,9 +27,6 @@ class CourseDetail extends Component {
         const {firstName, lastName} = this.state.userDetail;
         const { context } = this.props;
 
-        // console.log(this.state);
-        // console.log(context.authenticatedUser);
-
         return (
             <React.Fragment>
                 <div className="actions--bar">

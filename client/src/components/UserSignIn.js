@@ -32,6 +32,7 @@ class UserSignIn extends Component {
                 }
                 else {
                     this.props.history.push(from);
+                    console.log(from);
                     console.log(`SUCCESS! ${userData.emailAddress} is now signed in!`);
                 }      
             })
@@ -47,7 +48,7 @@ class UserSignIn extends Component {
         this.props.history.push("/");  
     }
 
-    render() {
+    render() {     
         return (
             <div className="bounds">
                 <div className="grid-33 centered signin">

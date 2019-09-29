@@ -47,7 +47,7 @@ class DeleteCourse extends Component {
         const confirmTitle = this.state.confirmTitle;
         const courseTitle = this.props.location.state.title;
         const {error} = this.state;
-
+        
         return (
             <div className="bounds course--detail">
                 <h1>Warning!</h1>
