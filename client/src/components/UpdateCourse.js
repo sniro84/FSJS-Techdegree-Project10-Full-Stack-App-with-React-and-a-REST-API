@@ -1,12 +1,32 @@
 import React,{Component} from 'react';
 
 class UpdateCourse extends Component {
+    
+    componentDidMount() {
+        const { context } = this.props;
+        const pathID = this.props.match.params.id;
+        const authUser = context.authenticatedUser.id;
+        context.data.getCourse(pathID)
+            .then( (data) => {
+                if (authUser !== data.User.id) 
+                    this.props.history.push("/forbidden");
+                else {
+                    const {id,title,description,estimatedTime,materialsNeeded} = data;
+                    this.setState({ id,title,description,estimatedTime,materialsNeeded });
+                }
+            }) 
+            .catch( (error) => {
+                console.log('Error: failed to fetch data from api', error);
+                this.props.history.push("/notfound"); 
+            });                   
+    }
 
     state = {
-        title: this.props.location.state.title,
-        description: this.props.location.state.description,
-        estimatedTime: this.props.location.state.estimatedTime,
-        materialsNeeded: this.props.location.state.title.materialsNeeded,
+        id:'', 
+        title: '',
+        description: '',
+        estimatedTime: '',
+        materialsNeeded: '',
         errors: []
     };
 
@@ -28,15 +48,14 @@ class UpdateCourse extends Component {
 
     handleSubmit = (e) => {
         e.preventDefault();
-        const {title,description,estimatedTime,materialsNeeded} = this.state;
-        const courseID = this.props.location.state.id;
+        const {id,title,description,estimatedTime,materialsNeeded} = this.state;
         const { context } = this.props;
         const emailAddress = context.authenticatedUser.emailAddress;
         const userId = context.authenticatedUser.id;
         const password = context.originalPassword;
         const body = {userId,title,description,estimatedTime,materialsNeeded}
 
-        context.data.updateCourse(courseID, body, emailAddress, password)
+        context.data.updateCourse(id, body, emailAddress, password)
             .then( (errors) => {
                 if (errors.length) 
                     this.setState({errors});   
@@ -53,12 +72,13 @@ class UpdateCourse extends Component {
 
     handleCancel = (e) => {
         e.preventDefault();
-        this.props.history.push(`/courses/${this.props.location.state.id}`);
+        this.props.history.push(`/courses/${this.state.id}`);
     }
 
     render () {
         const { context } = this.props;
         const {firstName,lastName} = context.authenticatedUser;
+        const {title,description,estimatedTime,materialsNeeded} = this.state;
         return (
             <div className="bounds course--detail">
                 <h1>Update Course</h1>
@@ -84,7 +104,7 @@ class UpdateCourse extends Component {
                                 type="text"
                                 className="input-title course--title--input"
                                 placeholder="Course title..."
-                                value={this.state.title}
+                                value={title}
                                 onChange={this.handleTitleChange}
                             />        
                             <p>By {firstName} {lastName} </p>
@@ -95,7 +115,7 @@ class UpdateCourse extends Component {
                                 name="description" 
                                 className=""
                                 placeholder="Course description..."
-                                value={this.state.description}
+                                value={description}
                                 onChange={this.handleDescriptionChange}
                             />  
                         </div>
@@ -111,7 +131,7 @@ class UpdateCourse extends Component {
                                         type="text"
                                         className="course--time--input"
                                         placeholder="Hours"
-                                        value={(this.state.estimatedTime) ? this.state.estimatedTime : ""}
+                                        value={(estimatedTime) ? estimatedTime : ""}
                                         onChange={this.handleEstimatedTimeChange}
                                     />        
                                     
@@ -123,7 +143,7 @@ class UpdateCourse extends Component {
                                         name="materialsNeeded"
                                         className=""
                                         placeholder="List materials..."
-                                        value={(this.state.materialsNeeded) ? this.state.materialsNeeded : ""}
+                                        value={(materialsNeeded) ? materialsNeeded : ""}
                                         onChange={this.handleMaterialsNeededChange}
                                     />
                                 </li>

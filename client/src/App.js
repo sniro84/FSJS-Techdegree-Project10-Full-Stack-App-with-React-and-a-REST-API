@@ -1,6 +1,6 @@
 
 import React, {Component} from 'react';
-import {BrowserRouter, Route, Switch} from 'react-router-dom';
+import {BrowserRouter, Route, Redirect, Switch} from 'react-router-dom';
 
 import Header from './components/Header';
 import Courses from './components/Courses';
@@ -13,9 +13,11 @@ import DeleteCourse from './components/DeleteCourse';
 import UserSignOut from './components/UserSignOut';
 import UnhandledError from './components/UnhandledError';
 import NotFound from './components/NotFound';
+import Forbidden from './components/Forbidden';
 import withContext from './Context';
 import PrivateRoute from './PrivateRoute';
 import './global.css';
+
 
 const HeaderWithContext = withContext(Header);
 const CoursesWithContext = withContext(Courses);
@@ -45,7 +47,9 @@ class App extends Component {
               <Route path="/signup" component={UserSignUpWithContext} />
               <Route path="/signout" component={UserSignOutWithContext} />
               <Route path="/error" component={UnhandledError} />
+              <Route path="/forbidden" component={Forbidden} />
               <Route path="/notfound" component={NotFound} />
+              <Redirect to="/notfound"/>
             </Switch>
           </div>
         </div>

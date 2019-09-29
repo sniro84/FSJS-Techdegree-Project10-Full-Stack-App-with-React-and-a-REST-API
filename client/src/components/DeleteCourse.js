@@ -2,7 +2,26 @@ import React,{Component} from 'react';
 
 class DeleteCourse extends Component {
 
+    componentDidMount() {
+        const { context } = this.props;
+        const pathID = this.props.match.params.id;
+        const authUser = context.authenticatedUser.id;
+        context.data.getCourse(pathID)
+            .then( (data) => {
+                if (authUser !== data.User.id) 
+                    this.props.history.push("/forbidden");
+                else
+                    this.setState({courseTitle: data.title});
+
+            }) 
+            .catch( (error) => {
+                console.log('Error: failed to fetch data from api', error);
+                this.props.history.push("/notfound"); 
+            });                   
+    }
+
     state = {
+        courseTitle: '',
         confirmTitle: '',
         error: '' 
     };
@@ -18,7 +37,7 @@ class DeleteCourse extends Component {
         const {emailAddress} = context.authenticatedUser;
         const password = context.originalPassword;
         const confirmTitle = this.state.confirmTitle;
-        const courseTitle = this.props.location.state.title;
+        const courseTitle = this.state.courseTitle;
 
         if (confirmTitle === courseTitle) {
             context.data.deleteCourse(courseID, emailAddress, password)
@@ -40,12 +59,13 @@ class DeleteCourse extends Component {
 
     handleCancel = (e) => {
         e.preventDefault();
-        this.props.history.push(`/courses/${this.props.location.state.id}`);
+        const pathID = this.props.match.params.id;
+        this.props.history.push(`/courses/${pathID}`);
     }
 
     render () {
         const confirmTitle = this.state.confirmTitle;
-        const courseTitle = this.props.location.state.title;
+        const courseTitle = this.state.courseTitle;
         const {error} = this.state;
         
         return (

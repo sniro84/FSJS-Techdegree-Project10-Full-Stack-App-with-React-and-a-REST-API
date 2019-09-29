@@ -79,7 +79,7 @@ export default class Data {
           });
       }
       else 
-          throw new Error();
+        throw new Error();        
     }
 
     async createCourse(body, emailAddress, password) {

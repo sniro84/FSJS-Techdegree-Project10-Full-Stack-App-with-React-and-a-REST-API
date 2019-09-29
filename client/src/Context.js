@@ -25,7 +25,7 @@ export class Provider extends Component {
         data: this.data,
         actions: { 
             signIn: this.signIn,
-            signOut: this.signOut,
+            signOut: this.signOut
         }
     };
 
@@ -42,7 +42,8 @@ export class Provider extends Component {
     if (userData !== null) {
         this.setState( () => {
             return {
-                authenticatedUser: userData
+                authenticatedUser: userData,
+                originalPassword: password
             };
         });
         Cookies.set('authenticatedUser',JSON.stringify(userData), { expires: 1 });
@@ -55,12 +56,10 @@ export class Provider extends Component {
     this.setState({ 
       authenticatedUser: null,
       originalPassword: '',
-      previousLocation: null
     });
     Cookies.remove('authenticatedUser');
     Cookies.remove('originalPassword');
   }
-
 }
 
 export const Consumer = Context.Consumer;

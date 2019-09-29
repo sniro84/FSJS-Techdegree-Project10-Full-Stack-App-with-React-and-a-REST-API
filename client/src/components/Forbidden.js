@@ -1,11 +1,11 @@
 import React from 'react';
 
-const NotFound = (props) => {
+const Forbidden = (props) => {
     return(
         <div className="bounds">
             <div className="grid-100 pad-bottom">
-                <h1>OOPS...</h1>
-                <h2>The requested page can't be found!</h2>
+                <h1>Forbidden access</h1>
+                <h2>You are not allowed to access the requested page.</h2>
             </div>
             
             <div className="grid-100 pad-bottom">
@@ -15,4 +15,4 @@ const NotFound = (props) => {
     );
 }
 
-export default NotFound;
+export default Forbidden;

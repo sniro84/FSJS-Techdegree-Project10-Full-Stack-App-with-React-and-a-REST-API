@@ -20,7 +20,6 @@ class UserSignIn extends Component {
     handleSubmit = (e) => {
         e.preventDefault();
         const { context } = this.props;
-        const { from } = this.props.location.state || { from: { pathname: "/" } };
         const { email, password } = this.state;
     
         context.actions.signIn(email,password)
@@ -31,8 +30,7 @@ class UserSignIn extends Component {
                     });   
                 }
                 else {
-                    this.props.history.push(from);
-                    console.log(from);
+                    this.props.history.push("/");
                     console.log(`SUCCESS! ${userData.emailAddress} is now signed in!`);
                 }      
             })
