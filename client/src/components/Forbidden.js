@@ -1,4 +1,5 @@
 import React from 'react';
+import {NavLink} from 'react-router-dom';
 
 const Forbidden = (props) => {
     return(
@@ -9,7 +10,7 @@ const Forbidden = (props) => {
             </div>
             
             <div className="grid-100 pad-bottom">
-                <button className="button" onClick={ () => props.history.push("/") }> Home</button>
+                <NavLink activeClassName="button" to="/"> Home </NavLink>
             </div>            
         </div>
     );
