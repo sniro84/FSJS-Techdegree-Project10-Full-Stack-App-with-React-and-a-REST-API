@@ -21,8 +21,7 @@ class UserSignIn extends Component {
         e.preventDefault();
         const { context } = this.props;
         const { email, password } = this.state;
-       
-    
+     
         context.actions.signIn(email,password)
             .then( (userData) => {
                 if (userData === null) {
