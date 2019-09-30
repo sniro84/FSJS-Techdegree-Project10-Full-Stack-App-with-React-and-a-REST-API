@@ -26,8 +26,11 @@ export default class Data {
           return res.json().then( (data) => data);
         else if (res.status === 401) 
           return null;
-        else 
-          throw new Error();
+        else {
+            const error = new Error();
+            error.name = (res.status === 404) ? 'notFound' : 'unhandled';  
+            throw error;
+        } 
     }
       
     async createUser(user) {
@@ -39,24 +42,34 @@ export default class Data {
                 return data.errors;
             });
         }
-        else 
-            throw new Error();
+        else {
+            const error = new Error();
+            error.name = (res.status === 404) ? 'notFound' : 'unhandled';  
+            throw error;
+        } 
     }
 
     async getCourses() {
         const res = await this.api('/courses','GET');
         if (res.status === 200)
           return res.json().then( (data) => data);
-        else 
-          throw new Error();
+        else {
+          const error = new Error();
+          error.name = (res.status === 404) ? 'notFound' : 'unhandled';  
+          throw error;
+        } 
     }
 
     async getCourse(courseID) {
       const res = await this.api(`/courses/${courseID}`,'GET');
       if (res.status === 200)
         return res.json().then( (data) => data);
-      else 
-        throw new Error();
+      else {
+        const error = new Error();
+        error.name = (res.status === 404) ? 'notFound' : 'unhandled';  
+        throw error;
+      } 
+        
     }
 
     async deleteCourse(courseID, emailAddress, password) {
@@ -65,8 +78,11 @@ export default class Data {
           return [];
       else if (res.status === 401)
           return null;
-      else
-          throw new Error();          
+      else {
+          const error = new Error();
+          error.name = (res.status === 404) ? 'notFound' : 'unhandled';  
+          throw error;
+      }          
     }
 
     async updateCourse(courseID, body, emailAddress, password) {
@@ -78,8 +94,11 @@ export default class Data {
               return data.validationErrors;
           });
       }
-      else 
-        throw new Error();        
+      else {
+        const error = new Error();
+        error.name = (res.status === 404) ? 'notFound' : 'unhandled';  
+        throw error;
+      }       
     }
 
     async createCourse(body, emailAddress, password) {
@@ -91,7 +110,10 @@ export default class Data {
               return data.errors;
           });
       }
-      else 
-          throw new Error();
+      else {
+        const error = new Error();
+        error.name = (res.status === 404) ? 'notFound' : 'unhandled';  
+        throw error;
+      } 
     }
 }

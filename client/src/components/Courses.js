@@ -12,8 +12,8 @@ class Courses extends Component {
         context.data.getCourses()
             .then( (data) => this.setState({ courses: data }))
             .catch( (error) => {
-                console.log('Error: failed to fetch data from api', error); 
-                this.props.history.push("/error"); 
+                const path = (error.name === 'notFound') ? "/notfound" : "/error";
+                this.props.history.push(path);  
             });
     }
 

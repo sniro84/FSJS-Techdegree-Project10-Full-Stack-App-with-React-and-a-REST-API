@@ -16,8 +16,8 @@ class CourseDetail extends Component {
                 this.setState({ userDetail: data.User })
             }) 
             .catch( (error) => {
-                console.log('Error: failed to fetch data from api', error);
-                this.props.history.push("/notfound"); 
+                const path = (error.name === 'notFound') ? "/notfound" : "/error";
+                this.props.history.push(path);   
             });                   
     }
 
