@@ -26,6 +26,7 @@ class CourseDetail extends Component {
         const {title,description,estimatedTime,materialsNeeded} = this.state.courseDetail;
         const {firstName, lastName} = this.state.userDetail;
         const { context } = this.props;
+        const ReactMarkdown = require('react-markdown/with-html');
 
         return (
             <React.Fragment>
@@ -67,7 +68,7 @@ class CourseDetail extends Component {
                         </div>
 
                         <div className="course--description">
-                             <p> {description} </p>
+                             <ReactMarkdown source={description} />
                         </div>                  
                     </div>
 
@@ -82,7 +83,7 @@ class CourseDetail extends Component {
                                 <li className="course--stats--list--item">
                                     <h4>Materials Needed</h4>
                                     <ul>
-                                         <li> {materialsNeeded} </li>
+                                         <ReactMarkdown source={materialsNeeded} />
                                     </ul>
                                 </li>
                             </ul>
