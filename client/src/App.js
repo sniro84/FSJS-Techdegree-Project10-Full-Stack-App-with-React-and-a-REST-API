@@ -16,7 +16,7 @@ import NotFound from './components/NotFound';
 import Forbidden from './components/Forbidden';
 import withContext from './Context';
 import PrivateRoute from './PrivateRoute';
-import './global.css';
+import './css/global.css';
 
 
 const HeaderWithContext = withContext(Header);
