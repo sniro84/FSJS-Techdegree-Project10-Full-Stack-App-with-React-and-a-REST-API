@@ -47,8 +47,8 @@ class DeleteCourse extends Component {
                 setTimeout( () => this.props.history.push("/") , 500);
             })   
             .catch( (error) => {
-                console.log('Failed to delete course : ', error);
-                this.props.history.push("/notfound");
+                const path = (error.name === 'notFound') ? "/notfound" : "/error";
+                this.props.history.push(path); 
             });  
         }  
         else {

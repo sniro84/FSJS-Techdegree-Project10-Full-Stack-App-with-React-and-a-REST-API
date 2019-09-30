@@ -45,8 +45,8 @@ class CreateCourse extends Component {
                 }
             })
             .catch( (error) => {
-                console.log(error);
-                this.props.history.push('/error');
+                const path = (error.name === 'notFound') ? "/notfound" : "/error";
+                this.props.history.push(path); 
             });  
     }
 
