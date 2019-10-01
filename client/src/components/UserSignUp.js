@@ -51,15 +51,17 @@ class UserSignUp extends Component {
         const {firstName,lastName,emailAddress,password,confirmPassword} = this.state;
         const user = {firstName,lastName,emailAddress,password}; 
 
-        context.data.createUser(user)
+        if (password !== confirmPassword) { // the password hasn't benn confirmed.
+            this.setState({
+                errors: [...this.state.errors, "Please confirm your password." ]
+            });
+        }
+        
+        else {
+            context.data.createUser(user)
             .then( (errors) => {
                 if (errors.length) // validation errors have been found. 
                     this.setState({errors});
-                else if(password !== confirmPassword) { // the password hasn't benn confirmed.
-                    this.setState({
-                        errors: [...this.state.errors, "Please confirm your password." ]
-                      });
-                }
                 else {   // sign up was successfull --> signing in the user. 
                     context.actions.signIn(emailAddress, password)
                         .then( () => {
@@ -71,7 +73,8 @@ class UserSignUp extends Component {
             .catch( (error) => { // an unexpected error has been found.
                 console.log(error);
                 this.props.history.push('/error');
-            });     
+            }); 
+        }       
     }
 
     // this method redirects back to the home page (list of courses)

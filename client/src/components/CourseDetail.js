@@ -90,17 +90,25 @@ class CourseDetail extends Component {
                     <div className="grid-25 grid-right">
                         <div className="course--stats">
                             <ul className="course--stats--list">
-                                <li className="course--stats--list--item">
-                                    <h4>Estimated Time</h4>
-                                    <h3> {estimatedTime} </h3>
-                                </li>
 
-                                <li className="course--stats--list--item">
-                                    <h4>Materials Needed</h4>
-                                    <ul>
-                                         <ReactMarkdown source={materialsNeeded} />
-                                    </ul>
-                                </li>
+                                {/* Estimated time of the course will be shown only if it exists */}
+                                { estimatedTime !== null && estimatedTime !== '' &&
+                                    <li className="course--stats--list--item">
+                                        <h4>Estimated Time</h4>
+                                        <h3> {estimatedTime} </h3>
+                                    </li>
+                                }
+                                
+                                {/* Materials needed for the course will be shown only if they exist */}
+                                { materialsNeeded !== null && materialsNeeded !== '' &&
+                                    <li className="course--stats--list--item">
+                                        <h4>Materials Needed</h4>
+                                        <ul>
+                                            <ReactMarkdown source={materialsNeeded} />
+                                        </ul>
+                                    </li>
+                                }
+                                
                             </ul>
                         </div>
                     </div>
