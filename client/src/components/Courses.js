@@ -18,9 +18,10 @@ class Courses extends Component {
     }
 
     render() {
+        const {courses} = this.state; 
         return(
             <div className="bounds">       
-                {this.state.courses.map( (course) => 
+                {courses.map( (course) => 
                     <div key={`${course.id}`} className="grid-33" >
                         <Link className="course--module course--link" to={`/courses/${course.id}`}>
                             <h4 className="course--label">Course</h4>

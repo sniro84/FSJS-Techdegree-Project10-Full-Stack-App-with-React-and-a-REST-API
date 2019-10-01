@@ -30,10 +30,10 @@ class CreateCourse extends Component {
         e.preventDefault();
         const {title,description,estimatedTime,materialsNeeded} = this.state;
         const { context } = this.props;
-        const emailAddress = context.authenticatedUser.emailAddress;
+        const {emailAddress} = context.authenticatedUser;
         const userId = context.authenticatedUser.id;
         const password = context.originalPassword;
-        const body = {userId,title,description,estimatedTime,materialsNeeded}
+        const body = {userId,title,description,estimatedTime,materialsNeeded};
 
         context.data.createCourse(body, emailAddress, password)
             .then( (errors) => {
@@ -56,16 +56,16 @@ class CreateCourse extends Component {
     }
 
     render() {
-        
+        const {title,description,estimatedTime,materialsNeeded,errors} = this.state;
         return (
             <div className="bounds course--detail">
                 <h1>Create Course</h1>
                 
-                {this.state.errors.length > 0 &&
+                {errors.length > 0 &&
                     <div className="validation-errors">
                         <h2 className="validation--errors--label"> Validation Errors : </h2>
                         <ul>
-                            {this.state.errors.map( (error,index) => {
+                            {errors.map( (error,index) => {
                                 return <li key={index}> {error} </li>
                             })}
                         </ul>     
@@ -82,7 +82,7 @@ class CreateCourse extends Component {
                                 type="text"
                                 className="input-title course--title--input" 
                                 placeholder="Course title..."
-                                value={this.state.title}
+                                value={title}
                                 onChange={this.handleTitleChange} 
                             /> 
                             <p>By Joe Smith</p>
@@ -93,7 +93,7 @@ class CreateCourse extends Component {
                                 name="description"
                                 className=""
                                 placeholder="Course description..."
-                                value={this.state.description}
+                                value={description}
                                 onChange={this.handleDescriptionChange}>     
                             </textarea>
                         </div>
@@ -109,7 +109,7 @@ class CreateCourse extends Component {
                                         type="text"
                                         className="course--time--input"
                                         placeholder="Hours"
-                                        value={this.state.estimatedTime}
+                                        value={estimatedTime}
                                         onChange={this.handleEstimatedTimeChange} 
                                     />
                                 </li>
@@ -120,7 +120,7 @@ class CreateCourse extends Component {
                                         name="materialsNeeded"
                                         className=""
                                         placeholder="List materials..."
-                                        value={this.state.materialsNeeded}
+                                        value={materialsNeeded}
                                         onChange={this.handleMaterialsNeededChange}>     
                                     </textarea>
                                 </li>

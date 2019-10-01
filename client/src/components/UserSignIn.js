@@ -4,13 +4,13 @@ import {Link} from 'react-router-dom';
 class UserSignIn extends Component {
 
     state = {
-        email: '',
+        emailAddress: '',
         password: '',
         errors: []
     };
 
     handleEmailAddressChange = (e) => {
-        this.setState({email: e.target.value});
+        this.setState({emailAddress: e.target.value});
     }
 
     handlePasswordChange = (e) => {
@@ -21,9 +21,9 @@ class UserSignIn extends Component {
         e.preventDefault();
         const { context } = this.props;
         const { from } = this.props.location.state || { from: { pathname: "/" } };
-        const { email, password } = this.state;
+        const { emailAddress, password } = this.state;
      
-        context.actions.signIn(email,password)
+        context.actions.signIn(emailAddress,password)
             .then( (userData) => {
                 if (userData === null) {
                     this.setState( () => {
@@ -47,18 +47,19 @@ class UserSignIn extends Component {
         this.props.history.push("/");  
     }
 
-    render() {     
+    render() {
+        const {emailAddress,password,errors} = this.state;     
         return (
             <div className="bounds">
                 <div className="grid-33 centered signin">
                     <h1>Sign In</h1>
 
-                    {this.state.errors.length > 0 &&
+                    {errors.length > 0 &&
                         <div className="validation-errors">
                             <div>
                                 <h2 className="validation--errors--label"> Validation Errors : </h2>
                                 <ul>
-                                    {this.state.errors.map( (error,index) => {
+                                    {errors.map( (error,index) => {
                                         return <li key={index}> {error} </li>
                                     })}
                                 </ul>       
@@ -75,7 +76,7 @@ class UserSignIn extends Component {
                                     type="text"
                                     className=""
                                     placeholder="Email Address"
-                                    value={this.state.email}
+                                    value={emailAddress}
                                     onChange={this.handleEmailAddressChange}
                                 />
                             </div>
@@ -86,7 +87,7 @@ class UserSignIn extends Component {
                                     type="password"
                                     className=""
                                     placeholder="Password"
-                                    value={this.state.password}
+                                    value={password}
                                     onChange={this.handlePasswordChange}
                                 />
                             </div>

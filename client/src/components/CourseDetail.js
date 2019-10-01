@@ -22,10 +22,10 @@ class CourseDetail extends Component {
     }
 
     render() {
-        let id = this.props.match.params.id;
+        let {id} = this.props.match.params;
         const {title,description,estimatedTime,materialsNeeded} = this.state.courseDetail;
         const {firstName, lastName} = this.state.userDetail;
-        const { context } = this.props;
+        const {context} = this.props;
         const ReactMarkdown = require('react-markdown/with-html');
 
         return (

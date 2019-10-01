@@ -5,10 +5,10 @@ class DeleteCourse extends Component {
     componentDidMount() {
         const { context } = this.props;
         const pathID = this.props.match.params.id;
-        const authUser = context.authenticatedUser.id;
+        const authUserID = context.authenticatedUser.id;
         context.data.getCourse(pathID)
             .then( (data) => {
-                if (authUser !== data.User.id) 
+                if (authUserID !== data.User.id) 
                     this.props.history.push("/forbidden");
                 else
                     this.setState({courseTitle: data.title});

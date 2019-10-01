@@ -67,81 +67,76 @@ class UserSignUp extends Component {
     }
 
     render() {
-        const {firstName,lastName,emailAddress,password,confirmPassword} = this.state;
+        const {firstName,lastName,emailAddress,password,confirmPassword,errors} = this.state;
         return (
             <div className="bounds">
                 <div className="grid-33 centered signin">
                     <h1>Sign Up</h1>
 
-                    {this.state.errors.length > 0 &&
+                    {errors.length > 0 &&
                         <div className="validation-errors">
-                            <React.Fragment>
-                                <h2 className="validation--errors--label"> Validation Errors : </h2>
-                                <ul>
-                                    {this.state.errors.map( (error,index) => {
-                                        return <li key={index}> {error} </li>
-                                    })}
-                                </ul> 
-                            </React.Fragment>             
+                            <h2 className="validation--errors--label"> Validation Errors : </h2>
+                            <ul>
+                                {errors.map( (error,index) => {
+                                    return <li key={index}> {error} </li>
+                                })}
+                            </ul> 
                         </div>
                     }
+                      
+                    <form onSubmit={this.handleSubmit}>
+                        <input 
+                            id="firstName"
+                            name="firstName"
+                            type="text"
+                            className=""
+                            placeholder="First Name"
+                            value={firstName}
+                            onChange={this.handleFirstNameChange}
+                        />
+                        <input 
+                            id="lastName"
+                            name="lastName"
+                            type="text"
+                            className=""
+                            placeholder="Last Name"
+                            value={lastName}
+                            onChange={this.handleLastNameChange}
+                        />
+                        <input 
+                            id="emailAddress"
+                            name="emailAddress"
+                            type="text"
+                            className=""
+                            placeholder="Email Address"
+                            value={emailAddress}
+                            onChange={this.handleEmailAddressChange}
+                        />
+                        <input 
+                            id="password"
+                            name="password"
+                            type="password"
+                            className=""
+                            placeholder="Password"
+                            value={password}
+                            onChange={this.handlePasswordChange}
+                        />
+                        <input 
+                            id="confirmPassword"
+                            name="confirmPassword"
+                            type="password"
+                            className=""
+                            placeholder="Confirm Password"
+                            value={confirmPassword}
+                            onChange={this.handleConfirmPasswordChange}
+                        />
+                       
+                        <div className="grid-100 pad-bottom">
+                            <button className="button" type="submit">Sign Up</button>
+                            <button className="button button-secondary" onClick={this.handleCancel} >Cancel</button>
+                        </div>
+                    </form>
                     
-                    <React.Fragment>
-                        <form onSubmit={this.handleSubmit}>
-                            <React.Fragment>
-                                <input 
-                                    id="firstName"
-                                    name="firstName"
-                                    type="text"
-                                    className=""
-                                    placeholder="First Name"
-                                    value={firstName}
-                                    onChange={this.handleFirstNameChange}
-                                />
-                                <input 
-                                    id="lastName"
-                                    name="lastName"
-                                    type="text"
-                                    className=""
-                                    placeholder="Last Name"
-                                    value={lastName}
-                                    onChange={this.handleLastNameChange}
-                                />
-                                <input 
-                                    id="emailAddress"
-                                    name="emailAddress"
-                                    type="text"
-                                    className=""
-                                    placeholder="Email Address"
-                                    value={emailAddress}
-                                    onChange={this.handleEmailAddressChange}
-                                />
-                                <input 
-                                    id="password"
-                                    name="password"
-                                    type="password"
-                                    className=""
-                                    placeholder="Password"
-                                    value={password}
-                                    onChange={this.handlePasswordChange}
-                                />
-                                <input 
-                                    id="confirmPassword"
-                                    name="confirmPassword"
-                                    type="password"
-                                    className=""
-                                    placeholder="Confirm Password"
-                                    value={confirmPassword}
-                                    onChange={this.handleConfirmPasswordChange}
-                                />
-                            </React.Fragment>
-                            
-                            <div className="grid-100 pad-bottom">
-                                <button className="button" type="submit">Sign Up</button>
-                                <button className="button button-secondary" onClick={this.handleCancel} >Cancel</button>
-                            </div>
-                        </form>
-                    </React.Fragment>
                 <p>&nbsp;</p>
                 <p>Already have a user account? 
                     <Link to="/signin"> Click here</Link> to sign in!

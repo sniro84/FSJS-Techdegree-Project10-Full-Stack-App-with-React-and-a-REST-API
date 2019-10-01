@@ -1,3 +1,11 @@
+# Project #10 - React Client
+
+Description: In this project, I created a client that consumes the school database REST API from the previous project using React. Combined with the REST API, This full stack application provides a way for users to administer the database containing information about courses: users can interact with the database by retrieving a list of courses, viewing detail for a specific course, as well as creating, updating and deleting courses in the database.
+
+This is the front-end (client-side) part of a full-stack app (part 2 of 2).
+
+In order to complete this project, I have used my knowledge of React Basics, JSX, React Router, React Context API, and Create React App.
+
 This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
 
 ## Available Scripts

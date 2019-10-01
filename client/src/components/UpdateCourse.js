@@ -5,10 +5,10 @@ class UpdateCourse extends Component {
     componentDidMount() {
         const { context } = this.props;
         const pathID = this.props.match.params.id;
-        const authUser = context.authenticatedUser.id;
+        const authUserID = context.authenticatedUser.id;
         context.data.getCourse(pathID)
             .then( (data) => {
-                if (authUser !== data.User.id) 
+                if (authUserID !== data.User.id) 
                     this.props.history.push("/forbidden");
                 else {
                     const {id,title,description,estimatedTime,materialsNeeded} = data;
@@ -49,7 +49,7 @@ class UpdateCourse extends Component {
     handleSubmit = (e) => {
         e.preventDefault();
         const {id,title,description,estimatedTime,materialsNeeded} = this.state;
-        const { context } = this.props;
+        const {context} = this.props;
         const emailAddress = context.authenticatedUser.emailAddress;
         const userId = context.authenticatedUser.id;
         const password = context.originalPassword;
@@ -78,16 +78,16 @@ class UpdateCourse extends Component {
     render () {
         const { context } = this.props;
         const {firstName,lastName} = context.authenticatedUser;
-        const {title,description,estimatedTime,materialsNeeded} = this.state;
+        const {title,description,estimatedTime,materialsNeeded,errors} = this.state;
         return (
             <div className="bounds course--detail">
                 <h1>Update Course</h1>
 
-                {this.state.errors.length > 0 &&
+                {errors.length > 0 &&
                     <div className="validation-errors">
                         <h2 className="validation--errors--label"> Validation Errors : </h2>
                         <ul>
-                            {this.state.errors.map( (error,index) => {
+                            {errors.map( (error,index) => {
                                 return <li key={index}> {error} </li>
                             })}
                         </ul>     
