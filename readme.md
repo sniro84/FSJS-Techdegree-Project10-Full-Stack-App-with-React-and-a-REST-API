@@ -2,11 +2,11 @@
 
 The final project in the Full Stack JavaScript Techdegree.
 
-Description: A two-part full stack application of a school database.
-Server-side details are in the "/api/" path.
-Client-side details are in the "/client/" path. 
+Description: A two-part full stack application of a school database.<br/>
+Server-side details are in the "/api/" path.<br/>
+Client-side details are in the "/client/" path. <br/>
 
-Technologies:
-    Server-side: Node + Express + Sequilize ORM
-    Client-side: React
+Technologies:<br/>
+    Server-side: Node + Express + Sequilize ORM<br/>
+    Client-side: React<br/>
 
