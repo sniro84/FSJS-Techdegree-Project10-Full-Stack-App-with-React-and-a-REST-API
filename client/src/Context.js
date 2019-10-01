@@ -1,3 +1,14 @@
+/************************************************************************
+Treehouse FSJS Techdegree:
+Project 10 - Full Stack App with React and a REST API
+Name: Snir Holland
+Date: 01/10/2019
+
+>>> Context.js  <<<
+
+Creates context and sets up Provider and Consumer.
+************************************************************************/
+
 import React, { Component } from 'react';
 import Cookies from 'js-cookie';
 import Data from './Data';
@@ -36,10 +47,11 @@ export class Provider extends Component {
     );
   }
 
+  // this method get an email address and a password and signs in the user.
   signIn = async (emailAddress, password) => {
     this.setState({originalPassword: password});
-    const userData = await this.data.getUser(emailAddress,password);
-    if (userData !== null) {
+    const userData = await this.data.getUser(emailAddress,password);  // get user details
+    if (userData !== null) {  // user has been found.
         this.setState( () => {
             return {
                 authenticatedUser: userData,
@@ -52,6 +64,7 @@ export class Provider extends Component {
     return userData;
   }
 
+  // this signs out the authenticated user.
   signOut = () => {
     this.setState({ 
       authenticatedUser: null,

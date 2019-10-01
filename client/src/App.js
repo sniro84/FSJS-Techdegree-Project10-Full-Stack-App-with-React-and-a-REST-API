@@ -1,7 +1,18 @@
+/************************************************************************
+Treehouse FSJS Techdegree:
+Project 10 - Full Stack App with React and a REST API
+Name: Snir Holland
+Date: 01/10/2019
 
+>>> App.js  <<<
+
+The root component of the entire application.
+************************************************************************/
+
+
+// import statements
 import React, {Component} from 'react';
 import {BrowserRouter, Route, Redirect, Switch} from 'react-router-dom';
-
 import Header from './components/Header';
 import Courses from './components/Courses';
 import CourseDetail from './components/CourseDetail';
@@ -18,7 +29,7 @@ import withContext from './Context';
 import PrivateRoute from './PrivateRoute';
 import './css/global.css';
 
-
+// allow components to consume API Context 
 const HeaderWithContext = withContext(Header);
 const CoursesWithContext = withContext(Courses);
 const CourseDetailWithContext = withContext(CourseDetail);
@@ -30,7 +41,6 @@ const UserSignInWithContext = withContext(UserSignIn);
 const UserSignOutWithContext = withContext(UserSignOut);
 
 class App extends Component {
-
   render () {
     return (
       <BrowserRouter>
