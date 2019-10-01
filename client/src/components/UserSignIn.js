@@ -1,3 +1,17 @@
+/************************************************************************
+Treehouse FSJS Techdegree:
+Project 10 - Full Stack App with React and a REST API
+Name: Snir Holland
+Date: 01/10/2019
+
+>>> Component: UserSignIn <<<
+
+Renders a form allowing the user to sign using their existing account
+information, a "Sign In" button that when clicked signs in the user,
+and a "Cancel" button that returns the user to the default
+route (i.e. the list of courses).
+************************************************************************/
+
 import React, {Component} from 'react';
 import {Link} from 'react-router-dom';
 
@@ -9,39 +23,41 @@ class UserSignIn extends Component {
         errors: []
     };
 
+    // methods that respond to changes in the component state.
     handleEmailAddressChange = (e) => {
         this.setState({emailAddress: e.target.value});
     }
-
     handlePasswordChange = (e) => {
         this.setState({password: e.target.value});
     }
 
+    // this method respond to the "Sign In" button click event handler.
     handleSubmit = (e) => {
         e.preventDefault();
         const { context } = this.props;
         const { from } = this.props.location.state || { from: { pathname: "/" } };
         const { emailAddress, password } = this.state;
      
-        context.actions.signIn(emailAddress,password)
+        context.actions.signIn(emailAddress,password)  
             .then( (userData) => {
-                if (userData === null) {
+                if (userData === null) {  // user hasn't been authenticated.
                     this.setState( () => {
                         return {errors: [ 'Sign-in was unsuccessful' ]};
                     });   
                 }
-                else {
-                    this.props.history.push(from);
+                else {  // user has been authenticated.
+                    this.props.history.push(from);   // go back to the last page visited befor sign-in
                     console.log(`SUCCESS! ${userData.emailAddress} is now signed in!`);
                 }      
             })
-            .catch( (err) => {
+            .catch( (err) => {  // unexpected error has been found.
                 console.log(err);
                 this.props.history.push('/error');
             })
            
     }
 
+    // this method redirects back to the home page (list of courses)
     handleCancel = (e) => {
         e.preventDefault();
         this.props.history.push("/");  
@@ -54,6 +70,7 @@ class UserSignIn extends Component {
                 <div className="grid-33 centered signin">
                     <h1>Sign In</h1>
 
+                    {/* Validation errors will be showed only if exist. */}
                     {errors.length > 0 &&
                         <div className="validation-errors">
                             <div>
@@ -67,7 +84,7 @@ class UserSignIn extends Component {
                         </div>
                     }
 
-                    <div>
+                    <React.Fragment>
                         <form onSubmit={this.handleSubmit}>
                             <div>
                                 <input 
@@ -96,7 +113,7 @@ class UserSignIn extends Component {
                                 <button className="button button-secondary" onClick={this.handleCancel} > Cancel</button>
                             </div>
                         </form>
-                    </div>
+                    </React.Fragment>
                 <p>&nbsp;</p>
                 <p>
                     Don't have a user account? 

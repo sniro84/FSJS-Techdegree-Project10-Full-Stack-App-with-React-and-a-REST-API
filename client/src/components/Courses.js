@@ -1,3 +1,16 @@
+/*****************************************************************************
+Treehouse FSJS Techdegree:
+Project 10 - Full Stack App with React and a REST API
+Name: Snir Holland
+Date: 01/10/2019
+
+>>> Component: Courses <<<
+
+Retrieves the list of courses from the REST API, renders a list of courses,
+links each course to its respective "Course Detail" screen, and renders a link
+to the "Create Course" screen.
+******************************************************************************/
+
 import React, {Component} from 'react';
 import {Link} from 'react-router-dom';
 
@@ -10,9 +23,9 @@ class Courses extends Component {
     componentDidMount() {
         const { context } = this.props;
         context.data.getCourses()
-            .then( (data) => this.setState({ courses: data }))
-            .catch( (error) => {
-                const path = (error.name === 'notFound') ? "/notfound" : "/error";
+            .then( (data) => this.setState({ courses: data })) // courses have been successfully fetched.
+            .catch( (error) => {   // an error has been occoured.
+                const path = (error.name === 'notFound') ? "/notfound" : "/error"; 
                 this.props.history.push(path);  
             });
     }

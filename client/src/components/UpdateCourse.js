@@ -1,3 +1,17 @@
+/******************************************************************************
+Treehouse FSJS Techdegree:
+Project 10 - Full Stack App with React and a REST API
+Name: Snir Holland
+Date: 01/10/2019
+
+>>> Component: UpdateCourse <<<
+
+Renders a form allowing a user to update one of their existing courses, an
+"Update Course" button that when clicked sends a PUT request to the REST
+API's /api/courses/:id route, and a "Cancel" button that returns the
+user to the "Course Detail" screen.
+********************************************************************************/
+
 import React,{Component} from 'react';
 
 class UpdateCourse extends Component {
@@ -8,14 +22,14 @@ class UpdateCourse extends Component {
         const authUserID = context.authenticatedUser.id;
         context.data.getCourse(pathID)
             .then( (data) => {
-                if (authUserID !== data.User.id) 
+                if (authUserID !== data.User.id) // authenticated user doesn't own the course
                     this.props.history.push("/forbidden");
-                else {
+                else {  // authenticated user owns the course
                     const {id,title,description,estimatedTime,materialsNeeded} = data;
                     this.setState({ id,title,description,estimatedTime,materialsNeeded });
                 }
             }) 
-            .catch( (error) => {
+            .catch( (error) => {  // errors have been found
                 const path = (error.name === 'notFound') ? "/notfound" : "/error";
                 this.props.history.push(path);  
             });                   
@@ -30,46 +44,46 @@ class UpdateCourse extends Component {
         errors: []
     };
 
+    // methods that respond to changes in the component state.
     handleTitleChange = (e) => {
         this.setState({title: e.target.value})
     }
-
     handleDescriptionChange = (e) => {
         this.setState({description: e.target.value})
     }
-
     handleEstimatedTimeChange = (e) => {
         this.setState({estimatedTime: e.target.value})
     }
-
     handleMaterialsNeededChange = (e) => {
         this.setState({materialsNeeded: e.target.value})
     }
 
+    // this method respond to the "Update Course" button click event handler.
     handleSubmit = (e) => {
         e.preventDefault();
         const {id,title,description,estimatedTime,materialsNeeded} = this.state;
         const {context} = this.props;
-        const emailAddress = context.authenticatedUser.emailAddress;
+        const {emailAddress} = context.authenticatedUser;
         const userId = context.authenticatedUser.id;
         const password = context.originalPassword;
         const body = {userId,title,description,estimatedTime,materialsNeeded}
 
         context.data.updateCourse(id, body, emailAddress, password)
             .then( (errors) => {
-                if (errors.length) 
+                if (errors.length)  // validation errors have been found. 
                     this.setState({errors});   
-                else {
+                else {    // the course has been successfully updated. 
                     this.props.history.push("/");
                     console.log('Course has been successfully updated.');          
                 }
             })
-            .catch( (error) => {
+            .catch( (error) => {  // errors which are not validation-related have been found.
                 console.log(error);
                 this.props.history.push('/error');
             });  
     }
 
+    // this method redirects back to the home page (list of courses)
     handleCancel = (e) => {
         e.preventDefault();
         this.props.history.push(`/courses/${this.state.id}`);
@@ -83,6 +97,7 @@ class UpdateCourse extends Component {
             <div className="bounds course--detail">
                 <h1>Update Course</h1>
 
+                {/* Validation errors will be showed only if exist. */}
                 {errors.length > 0 &&
                     <div className="validation-errors">
                         <h2 className="validation--errors--label"> Validation Errors : </h2>

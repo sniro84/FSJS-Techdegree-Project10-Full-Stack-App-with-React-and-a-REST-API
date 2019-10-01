@@ -1,3 +1,18 @@
+/************************************************************************
+Treehouse FSJS Techdegree:
+Project 10 - Full Stack App with React and a REST API
+Name: Snir Holland
+Date: 01/10/2019
+
+>>> Component: UserSignUp <<<
+
+Renders a form allowing a user to sign up by creating a new account,
+a "Sign Up" button that when clicked sends a POST request to the
+REST API's /api/users route and signs in the user, and a "Cancel"
+button that returns the user to the default 
+route (i.e. the list of courses)
+************************************************************************/
+
 import React,{Component} from 'react';
 import {Link} from 'react-router-dom';
 
@@ -12,26 +27,24 @@ class UserSignUp extends Component {
         errors: []
     };
 
+    // methods that respond to changes in the component state.
     handleFirstNameChange = (e) => {
         this.setState({firstName: e.target.value})
     } 
-
     handleLastNameChange = (e) => {
         this.setState({lastName: e.target.value})
     }
-
     handleEmailAddressChange = (e) => {
         this.setState({emailAddress: e.target.value})
     }
-
     handlePasswordChange = (e) => {
         this.setState({password: e.target.value})
     }
-
     handleConfirmPasswordChange = (e) => {
         this.setState({confirmPassword: e.target.value})
     }
 
+    // this method respond to the "Sign Up" button click event handler.
     handleSubmit = (e) => {
         e.preventDefault();
         const { context } = this.props;
@@ -40,14 +53,14 @@ class UserSignUp extends Component {
 
         context.data.createUser(user)
             .then( (errors) => {
-                if (errors.length) 
+                if (errors.length) // validation errors have been found. 
                     this.setState({errors});
-                else if(password !== confirmPassword) {
+                else if(password !== confirmPassword) { // the password hasn't benn confirmed.
                     this.setState({
                         errors: [...this.state.errors, "Please confirm your password." ]
                       });
                 }
-                else {
+                else {   // sign up was successfull --> signing in the user. 
                     context.actions.signIn(emailAddress, password)
                         .then( () => {
                             this.props.history.push("/")
@@ -55,12 +68,13 @@ class UserSignUp extends Component {
                     console.log(`${emailAddress} is successfully signed up and authenticated!`);     
                 }          
             })
-            .catch( (error) => {
+            .catch( (error) => { // an unexpected error has been found.
                 console.log(error);
                 this.props.history.push('/error');
             });     
     }
 
+    // this method redirects back to the home page (list of courses)
     handleCancel = (e) => {
         e.preventDefault();
         this.props.history.push("/"); 
@@ -73,6 +87,7 @@ class UserSignUp extends Component {
                 <div className="grid-33 centered signin">
                     <h1>Sign Up</h1>
 
+                    {/* Validation errors will be showed only if exist. */}
                     {errors.length > 0 &&
                         <div className="validation-errors">
                             <h2 className="validation--errors--label"> Validation Errors : </h2>

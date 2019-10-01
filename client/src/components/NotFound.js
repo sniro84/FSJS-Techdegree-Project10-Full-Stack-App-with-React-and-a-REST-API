@@ -1,3 +1,14 @@
+/******************************************************************************
+Treehouse FSJS Techdegree:
+Project 10 - Full Stack App with React and a REST API
+Name: Snir Holland
+Date: 01/10/2019
+
+>>> Component: NotFound <<<
+
+Renders a message letting the user know that the requested page can't be found.
+********************************************************************************/
+
 import React from 'react';
 import {NavLink} from 'react-router-dom';
 

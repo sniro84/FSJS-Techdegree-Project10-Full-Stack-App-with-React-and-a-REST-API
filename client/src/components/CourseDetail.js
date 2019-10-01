@@ -1,3 +1,17 @@
+/************************************************************************
+Treehouse FSJS Techdegree:
+Project 10 - Full Stack App with React and a REST API
+Name: Snir Holland
+Date: 01/10/2019
+
+>>> Component: CourseDetails <<<
+
+Retrieves the detail for a course from the REST API,
+renders the course details, an "Update Course" button for navigating to
+the "Update Course" screen, and a "Delete Course" button for navigating to
+the "Delete Course" screen.
+************************************************************************/
+
 import React, {Component} from 'react';
 import {Link} from 'react-router-dom';
 
@@ -11,11 +25,11 @@ class CourseDetail extends Component {
     componentDidMount() {
         const { context } = this.props;
         context.data.getCourse(this.props.match.params.id)
-            .then( (data) => {
+            .then( (data) => {   // a course has been successfully fetched.
                 this.setState({ courseDetail: data })
                 this.setState({ userDetail: data.User })
             }) 
-            .catch( (error) => {
+            .catch( (error) => {  // an error has been occoured.
                 const path = (error.name === 'notFound') ? "/notfound" : "/error";
                 this.props.history.push(path);   
             });                   
@@ -26,7 +40,7 @@ class CourseDetail extends Component {
         const {title,description,estimatedTime,materialsNeeded} = this.state.courseDetail;
         const {firstName, lastName} = this.state.userDetail;
         const {context} = this.props;
-        const ReactMarkdown = require('react-markdown/with-html');
+        const ReactMarkdown = require('react-markdown/with-html');  // text format.
 
         return (
             <React.Fragment>
@@ -34,6 +48,7 @@ class CourseDetail extends Component {
                     <div className="bounds">
                         <div className="grid-100">
 
+                            {/* Update & Delete buttons only show if user has been authenticated  */}
                             { (context.authenticatedUser) 
                                 && (context.authenticatedUser.id === this.state.userDetail.id)
                                     &&  <React.Fragment>

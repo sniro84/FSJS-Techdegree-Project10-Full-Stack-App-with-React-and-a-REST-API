@@ -1,3 +1,18 @@
+/******************************************************************************
+Treehouse FSJS Techdegree:
+Project 10 - Full Stack App with React and a REST API
+Name: Snir Holland
+Date: 01/10/2019
+
+>>> Component: DeleteCourse <<<
+
+Renders a warning screen to warn the user before the course is deleted. The warning
+screen contains a "Delete Course" button that when clicked sends a DELETE request
+to the REST API's /api/courses/:id route, a text field to confirm the course's title
+before deletion takes place and a "Cancel" button that returns the user to the
+"Course Detail" screen.
+********************************************************************************/
+
 import React,{Component} from 'react';
 
 class DeleteCourse extends Component {
@@ -7,14 +22,14 @@ class DeleteCourse extends Component {
         const pathID = this.props.match.params.id;
         const authUserID = context.authenticatedUser.id;
         context.data.getCourse(pathID)
-            .then( (data) => {
-                if (authUserID !== data.User.id) 
+            .then( (data) => {  
+                if (authUserID !== data.User.id)  // authenticated user doesn't own the course 
                     this.props.history.push("/forbidden");
-                else
+                else  // authenticated user owns the course 
                     this.setState({courseTitle: data.title});
 
             }) 
-            .catch( (error) => {
+            .catch( (error) => {    // errors have been found
                 const path = (error.name === 'notFound') ? "/notfound" : "/error";
                 this.props.history.push(path); 
             });                   
@@ -26,37 +41,40 @@ class DeleteCourse extends Component {
         error: '' 
     };
 
+    // a method that respond to changes in the component state.
     handleConfirmTitleChange = (e) => {
         this.setState({confirmTitle: e.target.value})
     }
 
+    // this method respond to the "Delete Course" button click event handler.
     handleSubmit = (e) => {
         e.preventDefault();
         const courseID = this.props.match.params.id;
         const { context } = this.props;
         const {emailAddress} = context.authenticatedUser;
         const password = context.originalPassword;
-        const confirmTitle = this.state.confirmTitle;
-        const courseTitle = this.state.courseTitle;
+        const {confirmTitle,courseTitle} = this.state;
+        
 
-        if (confirmTitle === courseTitle) {
+        if (confirmTitle === courseTitle) {  // title in the text field match the title of the course.
             context.data.deleteCourse(courseID, emailAddress, password)
-            .then( () => {
+            .then( () => {   // course has been successfully deleted.  
                 console.log('Course has been successfully deleted.');
                 this.setState({ error: '' });
-                setTimeout( () => this.props.history.push("/") , 500);
+                this.props.history.push("/");
             })   
-            .catch( (error) => {
+            .catch( (error) => {   // errors have been found.
                 const path = (error.name === 'notFound') ? "/notfound" : "/error";
                 this.props.history.push(path); 
             });  
         }  
-        else {
+        else { // title in the text field doesn't match the title of the course.
             const message = `Course title in the confirmation box doesn't match the target course's title.`;
             this.setState({error: message }); 
         }       
     }
 
+    // this method redirects back to the home page (list of courses)
     handleCancel = (e) => {
         e.preventDefault();
         const pathID = this.props.match.params.id;
@@ -64,9 +82,7 @@ class DeleteCourse extends Component {
     }
 
     render () {
-        const confirmTitle = this.state.confirmTitle;
-        const courseTitle = this.state.courseTitle;
-        const {error} = this.state;
+        const {confirmTitle,courseTitle,error} = this.state;
         
         return (
             <div className="bounds course--detail">
@@ -79,6 +95,7 @@ class DeleteCourse extends Component {
                     Please type the course title below to confirm the deletion:
                 </p>
 
+                {/* Confirmation error will be showed only if user tries to send an incorrect course title */}
                 { (error !== '') && (courseTitle !== confirmTitle) && 
                     <div className="validation-errors">
                         <h3> {error} </h3>    
