@@ -10,3 +10,6 @@ Technologies:<br/>
     Server-side: Node + Express + Sequilize ORM<br/>
     Client-side: React<br/>
 
+To run the project :
+1. In the api folder, type : npm install --> npm run seed --> npm start.
+2. In the client folder, type : npm install --> npm start.
