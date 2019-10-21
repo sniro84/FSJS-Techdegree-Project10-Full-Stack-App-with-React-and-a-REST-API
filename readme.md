@@ -1,4 +1,4 @@
-# Project #10 - Full Stack App with React and a REST API
+# Treehouse Techdegree Capstone Project - Full Stack App with React and a REST API
 
 The final project in the Full Stack JavaScript Techdegree.
 
@@ -10,6 +10,6 @@ Technologies:<br/>
     Server-side: Node + Express + Sequilize ORM<br/>
     Client-side: React<br/>
 
-To run the project :
+To run the project, download the project files and then :
 1. In the api folder, type : npm install --> npm run seed --> npm start.
 2. In the client folder, type : npm install --> npm start.
